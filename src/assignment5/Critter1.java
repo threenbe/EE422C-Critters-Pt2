@@ -1,5 +1,5 @@
 package assignment5;
-/* CRITTERS Main.java
+/* CRITTERS Critter1.java
  * EE422C Project 4 submission by
  * Timberlon Gray
  * tg22698
@@ -8,8 +8,11 @@ package assignment5;
  * rac4444
  * 16235
  * Slip days used: <0>
- * Fall 2016
+ * Spring 2017
  */
+
+import javafx.scene.paint.Color;
+
 
 public class Critter1 extends Critter {
 /**
@@ -39,8 +42,14 @@ public class Critter1 extends Critter {
 	}
 	@Override
 	public CritterShape viewShape() {
-		// TODO Auto-generated method stub
-		return null;
+		return Critter.CritterShape.STAR;
 	}
-	
+	@Override
+	public Color viewOutlineColor() {
+		return Color.YELLOW;
+	}
+	@Override
+	public Color viewFillColor() {
+		return Color.RED;
+	}
 }

@@ -1,5 +1,5 @@
 package assignment5;
-/* CRITTERS Main.java
+/* CRITTERS Critter2.java
  * EE422C Project 4 submission by
  * Timberlon Gray
  * tg22698
@@ -8,8 +8,10 @@ package assignment5;
  * rac4444
  * 16235
  * Slip days used: <0>
- * Fall 2016
+ * Spring 2017
  */
+
+import javafx.scene.paint.Color;
 
 public class Critter2 extends Critter {
 	private int slowMove = 0; // moves every 6 turns
@@ -46,8 +48,15 @@ public class Critter2 extends Critter {
 
 	@Override
 	public CritterShape viewShape() {
-		// TODO Auto-generated method stub
-		return null;
+		return Critter.CritterShape.CIRCLE;
+	}
+	@Override
+	public Color viewOutlineColor() {
+		return Color.BROWN;
+	}
+	@Override
+	public Color viewFillColor() {
+		return Color.GREEN;
 	}
 	
 }

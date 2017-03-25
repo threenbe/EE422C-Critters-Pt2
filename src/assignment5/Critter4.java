@@ -1,6 +1,6 @@
 package assignment5;
-/* CRITTERS Main.java
- * EE422C Project 4 submission by
+/* CRITTERS Critter4.java
+ * EE422C Project 5 submission by
  * Timberlon Gray
  * tg22698
  * 16235
@@ -8,8 +8,10 @@ package assignment5;
  * rac4444
  * 16235
  * Slip days used: <0>
- * Fall 2016
+ * Spring 2017
  */
+
+import javafx.scene.paint.Color;
 
 public class Critter4 extends Critter {
 	private int mating_season;
@@ -56,8 +58,15 @@ public class Critter4 extends Critter {
 	}
 	@Override
 	public CritterShape viewShape() {
-		// TODO Auto-generated method stub
-		return null;
+		return Critter.CritterShape.SQUARE;
+	}
+	@Override
+	public Color viewOutlineColor() {
+		return Color.PURPLE;
+	}
+	@Override
+	public Color viewFillColor() {
+		return Color.BLUE;
 	}
 	
 }
