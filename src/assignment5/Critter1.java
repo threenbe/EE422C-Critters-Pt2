@@ -1,4 +1,4 @@
-package assignment4;
+package assignment5;
 /* CRITTERS Main.java
  * EE422C Project 4 submission by
  * Timberlon Gray
@@ -36,6 +36,11 @@ public class Critter1 extends Critter {
 	
 	public String toString() {
 		return "1";
+	}
+	@Override
+	public CritterShape viewShape() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

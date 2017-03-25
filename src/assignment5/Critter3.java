@@ -1,4 +1,4 @@
-package assignment4;
+package assignment5;
 
 public class Critter3 extends Critter {
 	
@@ -53,6 +53,12 @@ public class Critter3 extends Critter {
 	
 	public String toString() {
 		return "3";
+	}
+
+	@Override
+	public CritterShape viewShape() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
