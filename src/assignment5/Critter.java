@@ -45,7 +45,64 @@ public abstract class Critter {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
 	}
 	
-	protected final String look(int direction, boolean steps) {return "";}
+	protected final String look(int direction, boolean steps) {
+		int w = Params.world_width;
+		int h = Params.world_height;
+		int x = 0,y = 0,steps_num;
+		if (!steps) steps_num = 1;
+		else steps_num = 2;
+		
+		switch(direction) {
+			case 0://right
+				x = (((x_coord + steps_num) % w) + w) % w;
+				y = y_coord;
+				break;
+			case 1://up-right
+				x = (((x_coord + steps_num) % w) + w) % w; 
+				y = (((y_coord - steps_num) % h) + h) % h; 
+				break;
+			case 2://up
+				x = x_coord;
+				y = (((y_coord - steps_num) % h) + h) % h; 
+				break;
+			case 3://up-left
+				x = (((x_coord - steps_num) % w) + w) % w; 
+				y = (((y_coord - steps_num) % h) + h) % h;
+				break;
+			case 4://left
+				x = (((x_coord - steps_num) % w) + w) % w;
+				y = y_coord;
+				break;
+			case 5://down-left
+				x = (((x_coord - steps_num) % w) + w) % w;
+				y = (((y_coord + steps_num) % h) + h) % h;
+				break;
+			case 6://down
+				x = x_coord;
+				y = (((y_coord + steps_num) % h) + h) % h;
+				break;
+			case 7://down-right
+				x = (((x_coord + steps_num) % w) + w) % w;
+				y = (((y_coord + steps_num) % h) + h) % h;
+				break;
+		}
+		
+		if (getEncounterStatus()) {
+			for (Critter c : population) {
+				if (x == c.x_coord && y == c.y_coord) {
+					return c.toString();
+				}
+			}
+			return null;
+		} else {
+			for (Critter c : population) {
+				if (x == c.old_x && y == c.old_y) {
+					return c.toString();
+				}
+			}
+			return null;
+		}
+	}
 	
 	/* rest is unchanged from Project 4 */
 	
@@ -68,6 +125,8 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
+	private int old_x;
+	private int old_y;
 
 	private boolean already_moved;
 	private static boolean pre_encounter_movements_done;
@@ -79,6 +138,8 @@ public abstract class Critter {
 	private static boolean getEncounterStatus() {
 		return pre_encounter_movements_done;
 	}
+	
+	
 	
 	protected final void walk(int direction) {
 		if (!already_moved) {
@@ -205,14 +266,23 @@ public abstract class Critter {
 	
 	public static void worldTimeStep() {
 		setEncounterStatus(false);
+		
+		for (Critter c : population) {
+			c.old_x = c.x_coord;
+			c.old_y = c.y_coord;
+		}
 		//do time steps
 		for (Critter c : population) {
 			c.doTimeStep();
 		}
 		
+		removeDeadCritters();
+		
 		setEncounterStatus(true);
+		
 		//resolve encounters
 		doEncounters();
+		removeDeadCritters();
 		
 		//update rest energy
 		for (Critter c : population) {
