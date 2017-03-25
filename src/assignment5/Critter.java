@@ -11,7 +11,7 @@ public abstract class Critter {
 		DIAMOND,
 		STAR
 	}
-	
+	// timberlon test
 	/* the default color is white, which I hope makes critters invisible by default
 	 * If you change the background color of your View component, then update the default
 	 * color to be the same as you background 
