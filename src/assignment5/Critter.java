@@ -352,6 +352,14 @@ public abstract class Critter {
 	}
 	*/
 	
+	public int xCoord() {
+		return x_coord;
+	}
+	
+	public int yCoord() {
+		return y_coord;
+	}
+	
 	/* create and initialize a Critter subclass
 	 * critter_class_name must be the name of a concrete subclass of Critter, if not
 	 * an InvalidCritterException must be thrown
