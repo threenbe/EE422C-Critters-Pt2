@@ -43,20 +43,20 @@ public class Main extends Application{
 		GridPane gridPane = new GridPane();
 		
 		// box for displaying error messages
-				Label errorMsg = new Label();
-				errorMsg.setPrefWidth(300);
-				errorMsg.setTextFill(Color.RED);
-				gridPane.add(errorMsg, 0, 10);
+		Label errorMsg = new Label();
+		errorMsg.setPrefWidth(350);
+		errorMsg.setTextFill(Color.RED);
+		gridPane.add(errorMsg, 0, 10);
 		
 		// Time Step button and text box functionality
 		TextField stepInput = new TextField();
 		stepInput.setPromptText("Enter the desired amount of time steps");
-		stepInput.setPrefWidth(300);
+		stepInput.setPrefWidth(350);
 		gridPane.add(stepInput, 0, 0);
 		
 		Button stepButton = new Button();
 		stepButton.setText("Perform Time Steps");
-		gridPane.add(stepButton, 1, 0);
+		gridPane.add(stepButton, 2, 0);
 		stepButton.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	int steps = 0;
@@ -67,7 +67,7 @@ public class Main extends Application{
 	    			errorMsg.setText("You did not enter an integer for time steps!");
 	    		}
 		    	while(steps > 0) {
-		    		//Critter.worldTimeStep();
+		    		Critter.worldTimeStep();
 		    		steps--;
 		    	}
 		    	//Critter.displayWorld(pane);
@@ -77,12 +77,12 @@ public class Main extends Application{
 		// Seed input and button to set
 		TextField seedInput = new TextField();
 		seedInput.setPromptText("Enter a seed if desired");
-		seedInput.setPrefWidth(300);
+		seedInput.setPrefWidth(350);
 		gridPane.add(seedInput, 0, 1);
 		
 		Button seedSet = new Button();
 		seedSet.setText("Set Seed");
-		gridPane.add(seedSet, 1, 1);
+		gridPane.add(seedSet, 2, 1);
 		seedSet.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	try {
@@ -97,15 +97,20 @@ public class Main extends Application{
 		// input for critter type, button to display stats, box for displaying the stats
 		TextField critterInput = new TextField();
 		critterInput.setPromptText("Critter type");
-		critterInput.setPrefWidth(300);
+		critterInput.setPrefWidth(350);
 		gridPane.add(critterInput, 0, 2);
+		
+		Label stats = new Label();
+		stats.setPrefWidth(350);
+		gridPane.add(stats, 0, 3);
 		
 		Button runStats = new Button();
 		runStats.setText("Get Statistics");
-		gridPane.add(runStats, 1, 2);
+		gridPane.add(runStats, 2, 2);
 		runStats.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	try {
+		    		stats.setText(Critter.runStats(Critter.TestCritter.getPopulation()));
 		    		// call runstats and only get info on desired critter in the critterInput
 		    		errorMsg.setText("");
 	    		} catch (Exception f){
@@ -113,6 +118,40 @@ public class Main extends Application{
 	    		}
 		    }
 		});
+		
+		// Code to create critters. Includes text box for critter type, amount desired, and button to activate.
+				TextField critterInput2 = new TextField();
+				critterInput2.setPromptText("Enter desired critter type");
+				critterInput2.setPrefWidth(350);
+				gridPane.add(critterInput2, 0, 4);
+				
+				TextField amtToSpawn = new TextField();
+				amtToSpawn.setPromptText("How many?");
+				amtToSpawn.setPrefWidth(80);
+				gridPane.add(amtToSpawn, 1, 4);
+				
+				Button createCritters = new Button();
+				createCritters.setText("Create Critters");
+				gridPane.add(createCritters, 2, 4);
+				createCritters.setOnAction(new EventHandler<ActionEvent>() {
+				    @Override public void handle(ActionEvent e) {
+				    	int intToSpawn = 0;
+				    	try {
+				    		intToSpawn = Integer.parseInt(amtToSpawn.getText());
+				    		errorMsg.setText("");
+			    		} catch (Exception f){
+			    			errorMsg.setText("Number of critters specified is not an integer!");
+			    		}
+				    	try {
+				    		while(intToSpawn > 0) {
+			    				Critter.makeCritter(critterInput2.getText());
+			    				intToSpawn--;
+			    			}
+				    	} catch (Exception g) {
+				    		errorMsg.setText("Critter type specified is not valid!");
+				    	}
+				    }
+				});
 		
 		// Button to quit the program
 		Button quit = new Button();
@@ -124,7 +163,7 @@ public class Main extends Application{
 			}
 		});
 		
-		primaryStage.setScene(new Scene(gridPane, 500, 800));
+		primaryStage.setScene(new Scene(gridPane, 600, 800));
 		primaryStage.show();
 	}
 }
