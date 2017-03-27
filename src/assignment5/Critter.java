@@ -46,6 +46,7 @@ public abstract class Critter {
 	}
 	
 	protected final String look(int direction, boolean steps) {
+		energy -= Params.look_energy_cost;
 		int w = Params.world_width;
 		int h = Params.world_height;
 		int x = 0,y = 0,steps_num;
@@ -160,75 +161,46 @@ public abstract class Critter {
 	private final void move(int direction, int steps) {
 		int w = Params.world_width;
 		int h = Params.world_height;
-		int x, y;
+		int x=0, y=0;
 		switch(direction) {
 		//(a % b + b) % b handles negative numbers
 			case 0://right
 				x = (((x_coord + steps) % w) + w) % w;
 				y = y_coord;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
 				break;
 			case 1://up-right
 				x = (((x_coord + steps) % w) + w) % w; 
 				y = (((y_coord - steps) % h) + h) % h; 
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
 				break;
 			case 2://up
 				x = x_coord;
 				y = (((y_coord - steps) % h) + h) % h; 
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
 				break;
 			case 3://up-left
 				x = (((x_coord - steps) % w) + w) % w; 
 				y = (((y_coord - steps) % h) + h) % h;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
 				break;
 			case 4://left
 				x = (((x_coord - steps) % w) + w) % w;
 				y = y_coord;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
 				break;
 			case 5://down-left
 				x = (((x_coord - steps) % w) + w) % w;
 				y = (((y_coord + steps) % h) + h) % h;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
 				break;
 			case 6://down
 				x = x_coord;
 				y = (((y_coord + steps) % h) + h) % h;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
 				break;
 			case 7://down-right
 				x = (((x_coord + steps) % w) + w) % w;
 				y = (((y_coord + steps) % h) + h) % h;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
 				break;
 		}
-		
+		if (moveOK(x,y)) {
+			x_coord = x;
+			y_coord = y;
+		}
 	}
 	
 	private boolean moveOK(int x, int y) {
@@ -412,7 +384,26 @@ public abstract class Critter {
 		return result;
 	}
 	
-	public static void runStats(List<Critter> critters) {}
+	public static String runStats(List<Critter> critters) {
+		String stats = "";
+		stats = stats + critters.size() + " critters as follows -- ";
+		java.util.Map<String, Integer> critter_count = new java.util.HashMap<String, Integer>();
+		for (Critter crit : critters) {
+			String crit_string = crit.toString();
+			Integer old_count = critter_count.get(crit_string);
+			if (old_count == null) {
+				critter_count.put(crit_string,  1);
+			} else {
+				critter_count.put(crit_string, old_count.intValue() + 1);
+			}
+		}
+		String prefix = "";
+		for (String s : critter_count.keySet()) {
+			stats = stats + prefix + s + ":" + critter_count.get(s);
+			prefix = ", ";
+		}
+		return stats;
+	}
 	/*old runStats
 	public static void runStats(List<Critter> critters) {
 		System.out.print("" + critters.size() + " critters as follows -- ");
