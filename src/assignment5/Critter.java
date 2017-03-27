@@ -296,18 +296,20 @@ public abstract class Critter {
 		GridPane grid = (GridPane) pane;
 		int width = 700;
 		int height = 700;
+		int worldWidth = Params.world_width;
+		int worldHeight = Params.world_height;
 		
 		int size = (int) ((width*0.99)/Params.world_width);
 		//record each critter position here
-		Critter[][] c_array = new Critter[Params.world_width][Params.world_height];
+		Critter[][] c_array = new Critter[worldWidth][worldHeight];
 		for (Critter c : population) {
 			int x = c.x_coord;
 			int y = c.y_coord;
 			c_array[x][y] = c;
 		}
 		//draw grid lines
-		for (int i = 0; i < Params.world_width; i++) {
-			for (int j = 0; j < Params.world_height; j++) {
+		for (int i = 0; i < worldWidth; i++) {
+			for (int j = 0; j < worldHeight; j++) {
 				Shape s = new Rectangle(size, size);
 				s.setFill(Color.WHITE);
 				s.setStroke(Color.LIGHTGRAY);
@@ -318,8 +320,8 @@ public abstract class Critter {
 		double critter_size = size*0.95;
 		size = (int) critter_size;
 		Shape s = null;
-		for (int x = 0; x < Params.world_width; x++) {
-			for (int y = 0; y < Params.world_height; y++) {
+		for (int x = 0; x < worldWidth; x++) {
+			for (int y = 0; y < worldHeight; y++) {
 				if (c_array[x][y]!=null) {
 					s = getIcon(c_array[x][y], size);
 					grid.add(s, x, y);
