@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+
 public abstract class Critter {
 	/* NEW FOR PROJECT 5 */
 	public enum CritterShape {
@@ -283,7 +290,63 @@ public abstract class Critter {
 		removeDeadCritters();
 	}
 	
-	public static void displayWorld(Object pane) {} 
+	public static void displayWorld(Object pane) {
+		GridPane grid = (GridPane) pane;
+		int width = 600;
+		int height = 600;
+		if (Params.world_width > Params.world_height) {
+			double world_width = (double) Params.world_width;
+			double world_height = (double) Params.world_height;
+			double div = world_width/world_height;
+			world_height = 600.0/div;
+			height = (int) world_height;
+		} else {
+			double world_width = (double) Params.world_width;
+			double world_height = (double) Params.world_height;
+			double div = world_height/world_width;
+			world_width = 600.0/div;
+			width = (int) world_width;
+		}
+		Scene scene = new Scene(grid,width,height);
+		
+		int size = width/Params.world_width;
+		//record each critter position here
+		Critter[][] c_array = new Critter[Params.world_width][Params.world_height];
+		for (Critter c : population) {
+			int x = c.x_coord;
+			int y = c.y_coord;
+			c_array[x][y] = c;
+		}
+		//draw grid lines
+		for (int i = 0; i <= 1; i++) {
+			for (int j = 0; j <= 1; j++) {
+				Shape s = new Rectangle(size, size);
+				s.setFill(null);
+				s.setStroke(Color.BLACK);
+				grid.add(s, i, j);
+			}
+		}
+		//fill in critters
+		for (int x = 0; x < Params.world_width; x++) {
+			for (int y = 0; y < Params.world_height; y++) {
+				if (c_array[x][y]!=null) {
+					
+				}
+			}
+		}
+		
+	}
+	
+	private static Shape getIcon(Critter c, int size) {
+		Shape s = null;
+		switch(c.viewShape()) {
+			case CIRCLE:
+				s = new Circle(size/2);
+				s.setFill(c.viewFillColor());
+				s.setStroke(c.viewOutlineColor());
+		}
+		return null;
+	}
 	/* Alternate displayWorld, where you use Main.<pane> to reach into your
 	   display component.
 	   Old display world:
