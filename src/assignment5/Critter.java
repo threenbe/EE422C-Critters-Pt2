@@ -309,7 +309,7 @@ public abstract class Critter {
 		for (int i = 0; i < Params.world_width; i++) {
 			for (int j = 0; j < Params.world_height; j++) {
 				Shape s = new Rectangle(size, size);
-				s.setFill(null);
+				s.setFill(Color.WHITE);
 				s.setStroke(Color.LIGHTGRAY);
 				grid.add(s, i, j);
 			}
@@ -327,11 +327,7 @@ public abstract class Critter {
 			}
 		}
 		
-		Stage stage = new Stage();
-		stage.setTitle("world");
-		Scene scene = new Scene(grid,width,height);
-		stage.setScene(scene);
-		stage.show();
+		
 		
 	}
 	

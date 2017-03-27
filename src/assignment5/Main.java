@@ -42,6 +42,15 @@ public class Main extends Application{
 		// GridPane for all the buttons and text boxes
 		GridPane gridPane = new GridPane();
 		
+		//GridPane for world
+		int width=700,height=700;
+    	GridPane pane = new GridPane();
+    	Stage stage = new Stage();
+		stage.setTitle("world");
+		Scene scene = new Scene(pane,width,height);
+		stage.setScene(scene);
+		stage.show();
+		
 		// box for displaying error messages
 		Label errorMsg = new Label();
 		errorMsg.setPrefWidth(350);
@@ -70,7 +79,7 @@ public class Main extends Application{
 		    		Critter.worldTimeStep();
 		    		steps--;
 		    	}
-		    	//Critter.displayWorld(pane);
+		    	Critter.displayWorld(pane);
 		    }
 		});
 		
