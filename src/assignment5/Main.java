@@ -1,18 +1,7 @@
 package assignment5;
 
-public class Main {
-
-	public static void main(String[] args) {
-		// launch(args);
-	}
-
-}
-
-
-/*OLD MAIN
-package assignment4;
 /* CRITTERS Main.java
- * EE422C Project 4 submission by
+ * EE422C Project 5 submission by
  * Timberlon Gray
  * tg22698
  * 16235
@@ -20,14 +9,128 @@ package assignment4;
  * rac4444
  * 16235
  * Slip days used: <0>
- * Fall 2016
+ * Spring 2017
  */
-/*
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import java.io.*;
 import java.lang.reflect.Method;
+
+public class Main extends Application{
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+	
+	@Override
+	public void start(Stage primaryStage) {
+		// GridPane for all the buttons and text boxes
+		GridPane gridPane = new GridPane();
+		
+		// box for displaying error messages
+				Label errorMsg = new Label();
+				errorMsg.setPrefWidth(300);
+				errorMsg.setTextFill(Color.RED);
+				gridPane.add(errorMsg, 0, 10);
+		
+		// Time Step button and text box functionality
+		TextField stepInput = new TextField();
+		stepInput.setPromptText("Enter the desired amount of time steps");
+		stepInput.setPrefWidth(300);
+		gridPane.add(stepInput, 0, 0);
+		
+		Button stepButton = new Button();
+		stepButton.setText("Perform Time Steps");
+		gridPane.add(stepButton, 1, 0);
+		stepButton.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	int steps = 0;
+		    	try {
+		    		steps = Integer.parseInt(stepInput.getText());
+		    		errorMsg.setText("");
+	    		} catch (Exception f){
+	    			errorMsg.setText("You did not enter an integer for time steps!");
+	    		}
+		    	while(steps > 0) {
+		    		//Critter.worldTimeStep();
+		    		steps--;
+		    	}
+		    	//Critter.displayWorld(pane);
+		    }
+		});
+		
+		// Seed input and button to set
+		TextField seedInput = new TextField();
+		seedInput.setPromptText("Enter a seed if desired");
+		seedInput.setPrefWidth(300);
+		gridPane.add(seedInput, 0, 1);
+		
+		Button seedSet = new Button();
+		seedSet.setText("Set Seed");
+		gridPane.add(seedSet, 1, 1);
+		seedSet.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	try {
+		    		Critter.setSeed(Integer.parseInt(seedInput.getText()));
+		    		errorMsg.setText("");
+	    		} catch (Exception f){
+	    			errorMsg.setText("You did not enter an integer for the seed!");
+	    		}
+		    }
+		});
+		
+		// input for critter type, button to display stats, box for displaying the stats
+		TextField critterInput = new TextField();
+		critterInput.setPromptText("Critter type");
+		critterInput.setPrefWidth(300);
+		gridPane.add(critterInput, 0, 2);
+		
+		Button runStats = new Button();
+		runStats.setText("Get Statistics");
+		gridPane.add(runStats, 1, 2);
+		runStats.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	try {
+		    		// call runstats and only get info on desired critter in the critterInput
+		    		errorMsg.setText("");
+	    		} catch (Exception f){
+	    			errorMsg.setText("You did not enter a known critter type!");
+	    		}
+		    }
+		});
+		
+		// Button to quit the program
+		Button quit = new Button();
+		quit.setText("End Simulation");
+		gridPane.add(quit, 0, 11);
+		quit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override public void handle(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		primaryStage.setScene(new Scene(gridPane, 500, 800));
+		primaryStage.show();
+	}
+}
+
+
+/*OLD MAIN
 
 
 /*
