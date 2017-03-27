@@ -302,12 +302,12 @@ public abstract class Critter {
 		int size = (int) ((width*0.99)/Params.world_width);
 		
 		//record each critter position here
-		/*Critter[][] c_array = new Critter[worldWidth][worldHeight];
+		Critter[][] c_array = new Critter[worldWidth][worldHeight];
 		for (Critter c : population) {
 			int x = c.x_coord;
 			int y = c.y_coord;
 			c_array[x][y] = c;
-		}*/
+		}
 		//draw grid lines
 		for (int i = 0; i < worldWidth; i++) {
 			for (int j = 0; j < worldHeight; j++) {
@@ -321,18 +321,14 @@ public abstract class Critter {
 		double critter_size = size*0.95;
 		size = (int) critter_size;
 		Shape s = null;
-		for(Critter c : population) {
-			s = getIcon(c, size);
-			grid.add(s, c.x_coord, c.y_coord);
-		}
-		/*for (int x = 0; x < worldWidth; x++) {
+		for (int x = 0; x < worldWidth; x++) {
 			for (int y = 0; y < worldHeight; y++) {
 				if (c_array[x][y]!=null) {
 					s = getIcon(c_array[x][y], size);
 					grid.add(s, x, y);
 				}
 			}
-		}*/
+		}
 		
 		
 		

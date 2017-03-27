@@ -31,6 +31,10 @@ import java.io.*;
 import java.lang.reflect.Method;
 
 public class Main extends Application{
+	private static String myPackage;
+	static {
+        myPackage = Critter.class.getPackage().toString().split(" ")[1];
+    }
 
 	public static void main(String[] args) {
 		launch(args);
@@ -119,7 +123,14 @@ public class Main extends Application{
 		runStats.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	try {
-		    		stats.setText(Critter.runStats(Critter.TestCritter.getPopulation()));
+		    		//stats.setText(Critter.runStats(Critter.TestCritter.getPopulation()));
+		    		String critter_class_name = critterInput.getText();
+		    		List<Critter> list_of_instances = Critter.getInstances(critterInput.getText());
+		    		critter_class_name = myPackage + "." + critter_class_name;
+		    		Class<?> type = Class.forName(critter_class_name);
+		    		Method method = type.getMethod("runStats", List.class);
+		    		String critter_stats = (String) method.invoke(null, list_of_instances);
+		    		stats.setText(critter_stats);
 		    		// call runstats and only get info on desired critter in the critterInput
 		    		errorMsg.setText("");
 	    		} catch (Exception f){
