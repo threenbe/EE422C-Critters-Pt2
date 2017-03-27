@@ -10,8 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
 
 public abstract class Critter {
 	/* NEW FOR PROJECT 5 */
@@ -292,24 +294,10 @@ public abstract class Critter {
 	
 	public static void displayWorld(Object pane) {
 		GridPane grid = (GridPane) pane;
-		int width = 600;
-		int height = 600;
-		if (Params.world_width > Params.world_height) {
-			double world_width = (double) Params.world_width;
-			double world_height = (double) Params.world_height;
-			double div = world_width/world_height;
-			world_height = 600.0/div;
-			height = (int) world_height;
-		} else {
-			double world_width = (double) Params.world_width;
-			double world_height = (double) Params.world_height;
-			double div = world_height/world_width;
-			world_width = 600.0/div;
-			width = (int) world_width;
-		}
-		Scene scene = new Scene(grid,width,height);
+		int width = 700;
+		int height = 700;
 		
-		int size = width/Params.world_width;
+		int size = (int) ((width*0.99)/Params.world_width);
 		//record each critter position here
 		Critter[][] c_array = new Critter[Params.world_width][Params.world_height];
 		for (Critter c : population) {
@@ -318,22 +306,32 @@ public abstract class Critter {
 			c_array[x][y] = c;
 		}
 		//draw grid lines
-		for (int i = 0; i <= 1; i++) {
-			for (int j = 0; j <= 1; j++) {
+		for (int i = 0; i < Params.world_width; i++) {
+			for (int j = 0; j < Params.world_height; j++) {
 				Shape s = new Rectangle(size, size);
 				s.setFill(null);
-				s.setStroke(Color.BLACK);
+				s.setStroke(Color.LIGHTGRAY);
 				grid.add(s, i, j);
 			}
 		}
 		//fill in critters
+		double critter_size = size*0.95;
+		size = (int) critter_size;
+		Shape s = null;
 		for (int x = 0; x < Params.world_width; x++) {
 			for (int y = 0; y < Params.world_height; y++) {
 				if (c_array[x][y]!=null) {
-					
+					s = getIcon(c_array[x][y], size);
+					grid.add(s, x, y);
 				}
 			}
 		}
+		
+		Stage stage = new Stage();
+		stage.setTitle("world");
+		Scene scene = new Scene(grid,width,height);
+		stage.setScene(scene);
+		stage.show();
 		
 	}
 	
@@ -342,10 +340,34 @@ public abstract class Critter {
 		switch(c.viewShape()) {
 			case CIRCLE:
 				s = new Circle(size/2);
-				s.setFill(c.viewFillColor());
-				s.setStroke(c.viewOutlineColor());
+				break;
+			case SQUARE:
+				s = new Rectangle(size,size);
+				break;
+			case TRIANGLE:
+				s = new Polygon();
+				((Polygon)s).getPoints().addAll(new Double[]{
+						(double) size/2, 0.0,
+						0.0, (double) size,
+						(double) size, (double) size
+				});
+				break;
+			case DIAMOND:
+				s = new Polygon();
+				((Polygon)s).getPoints().addAll(new Double[]{
+						(double) size/2, 0.0,
+						0.0, (double) size/2,
+						(double) size/2, (double) size,
+						(double) size, (double) size/2
+				});
+				break;
+			case STAR:
+				//s = new Polygon();
+				break;
 		}
-		return null;
+		s.setFill(c.viewFillColor());
+		s.setStroke(c.viewOutlineColor());
+		return s;
 	}
 	/* Alternate displayWorld, where you use Main.<pane> to reach into your
 	   display component.

@@ -51,9 +51,9 @@ public class WorldView extends Application {
             rectangle.setStroke(Color.BLACK);
             rectangle.setFill(Color.LIGHTBLUE);
 
-            Shape shape = current.viewShape();
-            shape.setFill(current.viewFillColor());
-            shape.setStroke(current.viewOutlineColor());
+            //Shape shape = current.viewShape();
+            //shape.setFill(current.viewFillColor());
+            //shape.setStroke(current.viewOutlineColor());
             
             // create label
             //Label label = new Label( name);
@@ -62,7 +62,7 @@ public class WorldView extends Application {
             setTranslateX( x*width);
             setTranslateY( y*height);
 
-            getChildren().addAll(shape);
+            //getChildren().addAll(shape);
 
         }
 
