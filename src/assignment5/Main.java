@@ -212,7 +212,7 @@ public class Main extends Application{
 		AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-            	for(int i = 0; i <= (100000000-(simSpeed)*1000000); i++) {}
+            	for(int i = 0; i <= (1000000000-(simSpeed)*10000000); i++) {}
             	Critter.worldTimeStep();
             	try {
 					//stats.setText(Critter.runStats(Critter.TestCritter.getPopulation()));
