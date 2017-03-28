@@ -24,6 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -32,6 +33,8 @@ import java.io.*;
 import java.lang.reflect.Method;
 
 public class Main extends Application{
+	private int simSpeed = 1;
+	private boolean isRunning = false;
 	private static String myPackage;
 	static {
         myPackage = Critter.class.getPackage().toString().split(" ")[1];
@@ -173,7 +176,43 @@ public class Main extends Application{
 				    	}
 				    }
 				});
+				
+		// Button and function for the animation
+		AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+            	for(int i = 0; i < simSpeed; i++) {
+            		Critter.worldTimeStep();
+            	}
+                Critter.displayWorld(pane);
+            }
+        };
+        TextField animationSpeed = new TextField();
+        animationSpeed.setPromptText("Enter the desired speed of animation");
+        animationSpeed.setPrefWidth(350);
+		gridPane.add(animationSpeed, 0, 4);
 		
+		Button animationToggle = new Button();
+		animationToggle.setText("Toggle Animation");
+		gridPane.add(animationToggle, 2, 4);
+		animationToggle.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	if(isRunning) {
+		    		isRunning = false;
+		    		timer.stop();
+		    	} else {
+		    		try {
+		    			simSpeed = Integer.parseInt(animationSpeed.getText());
+		    		} catch (Exception f) {
+		    			errorMsg.setText("Animation speed is not an integer! Default speed = 1");
+		    			simSpeed = 1;
+		    		}
+		    		isRunning = true;
+		    		timer.start();
+		    	}
+		    }
+		});
+        
 		// Button to quit the program
 		Button quit = new Button();
 		quit.setText("End Simulation");
@@ -183,6 +222,8 @@ public class Main extends Application{
 				System.exit(0);
 			}
 		});
+		
+		
 		
 		primaryStage.setScene(new Scene(gridPane, 600, 800));
 		primaryStage.show();
