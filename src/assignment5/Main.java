@@ -111,12 +111,12 @@ public class Main extends Application{
 		gridPane.add(stepButton, 2, 0);
 		stepButton.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		    	int steps = 0;
+		    	int steps = 1;
 		    	try {
 		    		steps = Integer.parseInt(stepInput.getText());
 		    		errorMsg.setText("");
 	    		} catch (Exception f){
-	    			errorMsg.setText("You did not enter an integer for time steps!");
+	    			errorMsg.setText("You did not enter an integer for time steps! Default = 1");
 	    		}
 		    	while(steps > 0) {
 		    		Critter.worldTimeStep();
@@ -132,7 +132,9 @@ public class Main extends Application{
 						// call runstats and only get info on desired critter in the critterInput
 					 	errorMsg.setText("");
 				    } catch (Exception f){
-				    	errorMsg.setText("You did not enter a known critter type for stats!");
+				    	if(critterInput.getText().equals(null)) {
+					    	errorMsg.setText("You did not enter a known critter type for stats!");
+				    	}
 				    	stats.setText("");
 				    }
 		    		steps--;
@@ -192,6 +194,7 @@ public class Main extends Application{
 				    	} catch (Exception g) {
 				    		errorMsg.setText("Critter type specified is not valid!");
 				    	}
+				    	Critter.displayWorld(pane);
 				    }
 				});
 				
@@ -223,7 +226,9 @@ public class Main extends Application{
 					// call runstats and only get info on desired critter in the critterInput
 				 	errorMsg.setText("");
 			    } catch (Exception f){
-			    	errorMsg.setText("You did not enter a known critter type for stats!");
+			    	if(critterInput.getText().equals(null)) {
+			    		errorMsg.setText("You did not enter a known critter type for stats!");
+			    	}
 			    	stats.setText("");
 			    }
                 Critter.displayWorld(pane);
@@ -285,6 +290,7 @@ public class Main extends Application{
         
 		primaryStage.setScene(new Scene(gridPane, 560, 700));
 		primaryStage.show();
+		Critter.displayWorld(pane);
 	}
 }
 

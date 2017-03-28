@@ -1,5 +1,17 @@
 package assignment5;
 
+/* CRITTERS Critter.java
+ * EE422C Project 5 submission by
+ * Timberlon Gray
+ * tg22698
+ * 16235
+ * Raiyan Chowdhury
+ * rac4444
+ * 16235
+ * Slip days used: <0>
+ * Spring 2017
+ */
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -25,7 +37,6 @@ public abstract class Critter {
 		DIAMOND,
 		STAR
 	}
-	// timberlon test
 	/* the default color is white, which I hope makes critters invisible by default
 	 * If you change the background color of your View component, then update the default
 	 * color to be the same as you background 
