@@ -308,26 +308,6 @@ public abstract class Critter {
 			int y = c.y_coord;
 			c_array[x][y] = c;
 		}
-		
-		
-		/*double critter_size = size*0.95;
-		size = (int) critter_size;
-		Shape t = null;
-		for (int i = 0; i < worldWidth; i++) {
-			for (int j = 0; j < worldHeight; j++) {
-				//draw grid lines
-				Shape s = new Rectangle(size, size);
-				s.setFill(Color.WHITE);
-				s.setStroke(Color.LIGHTGRAY);
-				grid.add(s, i, j);
-				//fill in critters
-				if (c_array[i][j]!=null) {
-					t = getIcon(c_array[i][j], size);
-					grid.add(t, i, j);
-				}
-			}
-		}*/
-		
 		//draw grid lines
 		for (int i = 0; i < worldWidth; i++) {
 			for (int j = 0; j < worldHeight; j++) {

@@ -177,6 +177,16 @@ public class Main extends Application{
 				    }
 				});
 				
+				// Button to quit the program
+				Button quit = new Button();
+				quit.setText("End Simulation");
+				gridPane.add(quit, 0, 11);
+				quit.setOnAction(new EventHandler<ActionEvent>() {
+					@Override public void handle(ActionEvent e) {
+						System.exit(0);
+					}
+				});
+				
 		// Button and function for the animation
 		AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -207,30 +217,40 @@ public class Main extends Application{
 		    @Override public void handle(ActionEvent e) {
 		    	if(isRunning) {
 		    		isRunning = false;
+		    		animationSpeed.setDisable(false);
+		    		createCritters.setDisable(false);
+		    		amtToSpawn.setDisable(false);
+		    		critterInput2.setDisable(false);
+		    		runStats.setDisable(false);
+		    		critterInput.setDisable(false);
+		    		stats.setDisable(false);
+		    		seedSet.setDisable(false);
+		    		seedInput.setDisable(false);
+		    		stepInput.setDisable(false);
+		    		stepButton.setDisable(false);
+		    		quit.setDisable(false);
 		    		timer.stop();
 		    	} else {
-		    		try {
-		    			//simSpeed = Integer.parseInt(animationSpeed.getText());
-		    			simSpeed = animationSpeed.getValue();
-		    		} catch (Exception f) {
-		    			//errorMsg.setText("Animation speed is not an integer! Default speed = 1");
-		    			//simSpeed = 1;
-		    		}
+		    		simSpeed = animationSpeed.getValue();
+		    		animationSpeed.setDisable(true);
+		    		createCritters.setDisable(true);
+		    		amtToSpawn.setDisable(true);
+		    		critterInput2.setDisable(true);
+		    		runStats.setDisable(true);
+		    		critterInput.setDisable(true);
+		    		stats.setDisable(true);
+		    		seedSet.setDisable(true);
+		    		seedInput.setDisable(true);
+		    		stepInput.setDisable(true);
+		    		stepButton.setDisable(true);
+		    		quit.setDisable(true);
 		    		isRunning = true;
 		    		timer.start();
 		    	}
 		    }
 		});
         
-		// Button to quit the program
-		Button quit = new Button();
-		quit.setText("End Simulation");
-		gridPane.add(quit, 0, 11);
-		quit.setOnAction(new EventHandler<ActionEvent>() {
-			@Override public void handle(ActionEvent e) {
-				System.exit(0);
-			}
-		});
+		
 		
 		
 		
