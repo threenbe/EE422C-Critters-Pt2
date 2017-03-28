@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Scanner;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -52,7 +53,8 @@ public class Main extends Application{
 		
 		//GridPane for world
 		int width=700,height=700;
-    	GridPane pane = new GridPane();
+    	//GridPane pane = new GridPane();
+		Group pane = new Group();
     	Stage stage = new Stage();
 		stage.setTitle("world");
 		Scene scene = new Scene(pane,width,height);
