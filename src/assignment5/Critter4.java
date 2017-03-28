@@ -41,7 +41,8 @@ public class Critter4 extends Critter {
 	/**
 	 * Because this critter does not like to use too much energy, it will only
 	 * fight critters half the time, unless it confronts Algae which it will always fight.
-	 * If it chooses not to fight a critter, it will try to walk away before a fight starts.
+	 * If it chooses not to fight a critter, it will try to walk away to an empty space
+	 * before a fight starts.
 	 */
 	@Override
 	public boolean fight(String opponent) {
@@ -49,7 +50,12 @@ public class Critter4 extends Critter {
 		if (num < 50 || opponent.equals("@")) {
 			return true;
 		}
-		walk(Critter.getRandomInt(8));
+		for(int i = 0; i < 8; i++) {
+			if(look(i, false) == null) {
+				walk(i);
+				break;
+			}
+		}
 		return false;
 	}
 	
