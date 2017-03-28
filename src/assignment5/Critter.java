@@ -383,6 +383,7 @@ public abstract class Critter {
 				break;
 			case STAR:
 				s = new Polygon();
+				sz *= 0.95;
 				((Polygon)s).getPoints().addAll(new Double[]{
 						sz*0.5, 0.0,
 						sz*0.375, sz*0.4,
