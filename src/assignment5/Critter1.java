@@ -46,7 +46,7 @@ public class Critter1 extends Critter {
 	}
 	@Override
 	public Color viewOutlineColor() {
-		return Color.YELLOW;
+		return Color.RED;
 	}
 	@Override
 	public Color viewFillColor() {

@@ -33,7 +33,7 @@ import java.io.*;
 import java.lang.reflect.Method;
 
 public class Main extends Application{
-	private int simSpeed = 1;
+	private double simSpeed = 50;
 	private boolean isRunning = false;
 	private static String myPackage;
 	static {
@@ -115,15 +115,15 @@ public class Main extends Application{
 		TextField critterInput = new TextField();
 		critterInput.setPromptText("Critter type");
 		critterInput.setPrefWidth(350);
-		gridPane.add(critterInput, 0, 3);
+		gridPane.add(critterInput, 0, 4);
 		
 		//text for displaying stats
 		Text stats = new Text();
-		gridPane.add(stats, 0, 4);
+		gridPane.add(stats, 0, 5);
 		
 		Button runStats = new Button();
 		runStats.setText("Get Statistics");
-		gridPane.add(runStats, 2, 3);
+		gridPane.add(runStats, 2, 4);
 		runStats.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	try {
@@ -181,20 +181,28 @@ public class Main extends Application{
 		AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-            	for(int i = 0; i < simSpeed; i++) {
-            		Critter.worldTimeStep();
-            	}
+            	for(int i = 0; i <= (100000000-(simSpeed)*1000000); i++) {}
+            	Critter.worldTimeStep();
                 Critter.displayWorld(pane);
             }
         };
-        TextField animationSpeed = new TextField();
+        /*TextField animationSpeed = new TextField();
         animationSpeed.setPromptText("Enter the desired speed of animation");
-        animationSpeed.setPrefWidth(350);
-		gridPane.add(animationSpeed, 0, 4);
+        animationSpeed.setPrefWidth(350);*/
+        Slider animationSpeed = new Slider();
+        animationSpeed.setMin(0);
+        animationSpeed.setMax(100);
+        animationSpeed.setValue(50);
+        animationSpeed.setShowTickMarks(true);
+        animationSpeed.setShowTickLabels(true);
+        animationSpeed.setMajorTickUnit(50);
+        animationSpeed.setBlockIncrement(5);
+        animationSpeed.setMinorTickCount(5);
+		gridPane.add(animationSpeed, 0, 3);
 		
 		Button animationToggle = new Button();
 		animationToggle.setText("Toggle Animation");
-		gridPane.add(animationToggle, 2, 4);
+		gridPane.add(animationToggle, 2, 3);
 		animationToggle.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	if(isRunning) {
@@ -202,10 +210,11 @@ public class Main extends Application{
 		    		timer.stop();
 		    	} else {
 		    		try {
-		    			simSpeed = Integer.parseInt(animationSpeed.getText());
+		    			//simSpeed = Integer.parseInt(animationSpeed.getText());
+		    			simSpeed = animationSpeed.getValue();
 		    		} catch (Exception f) {
-		    			errorMsg.setText("Animation speed is not an integer! Default speed = 1");
-		    			simSpeed = 1;
+		    			//errorMsg.setText("Animation speed is not an integer! Default speed = 1");
+		    			//simSpeed = 1;
 		    		}
 		    		isRunning = true;
 		    		timer.start();

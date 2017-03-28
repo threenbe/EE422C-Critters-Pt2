@@ -28,7 +28,7 @@ public class Critter2 extends Critter {
 		if(slowMove == 0) {
 			slowMove = 4;
 			int direction = getRandomInt(8);
-			if(look(direction, false).equals("@")) {
+			if(look(direction, false) != null && look(direction, false).equals("@")) {
 				walk(direction);
 			}
 		} else slowMove--;
