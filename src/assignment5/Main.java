@@ -65,6 +65,39 @@ public class Main extends Application{
 		errorMsg.setTextFill(Color.RED);
 		gridPane.add(errorMsg, 0, 10);
 		
+		// input for critter type, button to display stats, box for displaying the stats
+		TextField critterInput = new TextField();
+		critterInput.setPromptText("Critter type");
+		critterInput.setPrefWidth(350);
+		gridPane.add(critterInput, 0, 4);
+				
+		//text for displaying stats
+		Text stats = new Text();
+		gridPane.add(stats, 0, 5);
+				
+		Button runStats = new Button();
+		runStats.setText("Get Statistics");
+		gridPane.add(runStats, 2, 4);
+		runStats.setOnAction(new EventHandler<ActionEvent>() {
+			@Override public void handle(ActionEvent e) {
+				try {
+					//stats.setText(Critter.runStats(Critter.TestCritter.getPopulation()));
+				    String critter_class_name = critterInput.getText();
+					List<Critter> list_of_instances = Critter.getInstances(critterInput.getText());
+					critter_class_name = myPackage + "." + critter_class_name;
+					Class<?> type = Class.forName(critter_class_name);
+					Method method = type.getMethod("runStats", List.class);
+					String critter_stats = (String) method.invoke(null, list_of_instances);
+				    stats.setText(critter_stats);
+					// call runstats and only get info on desired critter in the critterInput
+				 	errorMsg.setText("");
+			    } catch (Exception f){
+			    	errorMsg.setText("You did not enter a known critter type for stats!");
+			    	stats.setText("");
+			    }
+			}
+		});
+		
 		// Time Step button and text box functionality
 		TextField stepInput = new TextField();
 		stepInput.setPromptText("Enter the desired amount of time steps");
@@ -85,6 +118,21 @@ public class Main extends Application{
 	    		}
 		    	while(steps > 0) {
 		    		Critter.worldTimeStep();
+		    		try {
+						//stats.setText(Critter.runStats(Critter.TestCritter.getPopulation()));
+					    String critter_class_name = critterInput.getText();
+						List<Critter> list_of_instances = Critter.getInstances(critterInput.getText());
+						critter_class_name = myPackage + "." + critter_class_name;
+						Class<?> type = Class.forName(critter_class_name);
+						Method method = type.getMethod("runStats", List.class);
+						String critter_stats = (String) method.invoke(null, list_of_instances);
+					    stats.setText(critter_stats);
+						// call runstats and only get info on desired critter in the critterInput
+					 	errorMsg.setText("");
+				    } catch (Exception f){
+				    	errorMsg.setText("You did not enter a known critter type for stats!");
+				    	stats.setText("");
+				    }
 		    		steps--;
 		    	}
 		    	Critter.displayWorld(pane);
@@ -107,38 +155,6 @@ public class Main extends Application{
 		    		errorMsg.setText("");
 	    		} catch (Exception f){
 	    			errorMsg.setText("You did not enter an integer for the seed!");
-	    		}
-		    }
-		});
-		
-		// input for critter type, button to display stats, box for displaying the stats
-		TextField critterInput = new TextField();
-		critterInput.setPromptText("Critter type");
-		critterInput.setPrefWidth(350);
-		gridPane.add(critterInput, 0, 4);
-		
-		//text for displaying stats
-		Text stats = new Text();
-		gridPane.add(stats, 0, 5);
-		
-		Button runStats = new Button();
-		runStats.setText("Get Statistics");
-		gridPane.add(runStats, 2, 4);
-		runStats.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		    	try {
-		    		//stats.setText(Critter.runStats(Critter.TestCritter.getPopulation()));
-		    		String critter_class_name = critterInput.getText();
-		    		List<Critter> list_of_instances = Critter.getInstances(critterInput.getText());
-		    		critter_class_name = myPackage + "." + critter_class_name;
-		    		Class<?> type = Class.forName(critter_class_name);
-		    		Method method = type.getMethod("runStats", List.class);
-		    		String critter_stats = (String) method.invoke(null, list_of_instances);
-		    		stats.setText(critter_stats);
-		    		// call runstats and only get info on desired critter in the critterInput
-		    		errorMsg.setText("");
-	    		} catch (Exception f){
-	    			errorMsg.setText("You did not enter a known critter type!");
 	    		}
 		    }
 		});
@@ -193,6 +209,21 @@ public class Main extends Application{
             public void handle(long now) {
             	for(int i = 0; i <= (100000000-(simSpeed)*1000000); i++) {}
             	Critter.worldTimeStep();
+            	try {
+					//stats.setText(Critter.runStats(Critter.TestCritter.getPopulation()));
+				    String critter_class_name = critterInput.getText();
+					List<Critter> list_of_instances = Critter.getInstances(critterInput.getText());
+					critter_class_name = myPackage + "." + critter_class_name;
+					Class<?> type = Class.forName(critter_class_name);
+					Method method = type.getMethod("runStats", List.class);
+					String critter_stats = (String) method.invoke(null, list_of_instances);
+				    stats.setText(critter_stats);
+					// call runstats and only get info on desired critter in the critterInput
+				 	errorMsg.setText("");
+			    } catch (Exception f){
+			    	errorMsg.setText("You did not enter a known critter type for stats!");
+			    	stats.setText("");
+			    }
                 Critter.displayWorld(pane);
             }
         };
@@ -250,11 +281,7 @@ public class Main extends Application{
 		    }
 		});
         
-		
-		
-		
-		
-		primaryStage.setScene(new Scene(gridPane, 560, 800));
+		primaryStage.setScene(new Scene(gridPane, 560, 700));
 		primaryStage.show();
 	}
 }
