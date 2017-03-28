@@ -15,6 +15,8 @@ package assignment5;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -565,9 +567,56 @@ public abstract class Critter {
 		}
 		return stats;
 	}
-
+	
 	private static void doEncounters() {
-		List<Critter> shared = new ArrayList<Critter>();
+		HashMap<Integer, Integer> critterLocations = new HashMap<Integer, Integer>();
+		// adds the location of each critter to a hashmap (the actual command that does 
+		// this is at the bottom of the for-each).
+		for (Critter a : population) {
+			int coords = a.x_coord + (a.y_coord * 1000000);
+			// checks if the location is already there ie there are two critters there.
+			if(critterLocations.containsKey(coords)) {
+				// finds the other critter
+				for(Critter b : population) {
+					int coords2 = b.x_coord + (b.y_coord * 1000000);
+					if(coords == coords2) {
+						// same code as before
+						//see if the critters want to fight
+						boolean fight_a = a.fight(b.toString());
+						boolean fight_b = b.fight(a.toString());
+						
+						//critters fight if these conditions are met
+						if (a.energy > 0 && b.energy > 0) {
+							
+							int rand_a, rand_b;
+							
+							if (fight_a)
+								rand_a = getRandomInt(a.energy);
+							else
+								rand_a = 0;
+							
+							if (fight_b)
+								rand_b = getRandomInt(b.energy);
+							else
+								rand_b = 0;
+								
+							if (rand_a > rand_b) {
+								a.energy += (b.energy/2);
+								b.energy = 0;
+							} else {
+								b.energy += (a.energy/2);
+								a.energy = 0;
+							}
+						}
+						break;
+					}
+				}
+			}
+			critterLocations.put(coords, 0);
+		}
+		
+		
+		/*List<Critter> shared = new ArrayList<Critter>();
 		int worldWidth = Params.world_width;
 		int worldHeight = Params.world_height;
 		for (int x = 0; x < worldWidth; x++) {
@@ -622,7 +671,7 @@ public abstract class Critter {
 				//"shared" list cleared so that the next position can be handled
 				shared.clear();
 			}
-		}
+		}*/
 	}
 
 	/**
