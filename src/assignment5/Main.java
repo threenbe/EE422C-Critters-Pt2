@@ -234,7 +234,7 @@ public class Main extends Application{
 		
 		
 		
-		primaryStage.setScene(new Scene(gridPane, 600, 800));
+		primaryStage.setScene(new Scene(gridPane, 560, 800));
 		primaryStage.show();
 	}
 }
