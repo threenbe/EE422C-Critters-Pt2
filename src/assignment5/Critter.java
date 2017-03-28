@@ -308,6 +308,26 @@ public abstract class Critter {
 			int y = c.y_coord;
 			c_array[x][y] = c;
 		}
+		
+		
+		/*double critter_size = size*0.95;
+		size = (int) critter_size;
+		Shape t = null;
+		for (int i = 0; i < worldWidth; i++) {
+			for (int j = 0; j < worldHeight; j++) {
+				//draw grid lines
+				Shape s = new Rectangle(size, size);
+				s.setFill(Color.WHITE);
+				s.setStroke(Color.LIGHTGRAY);
+				grid.add(s, i, j);
+				//fill in critters
+				if (c_array[i][j]!=null) {
+					t = getIcon(c_array[i][j], size);
+					grid.add(t, i, j);
+				}
+			}
+		}*/
+		
 		//draw grid lines
 		for (int i = 0; i < worldWidth; i++) {
 			for (int j = 0; j < worldHeight; j++) {
@@ -336,6 +356,7 @@ public abstract class Critter {
 	
 	private static Shape getIcon(Critter c, int size) {
 		Shape s = null;
+		double sz = (double) size;
 		switch(c.viewShape()) {
 			case CIRCLE:
 				s = new Circle(size/2);
@@ -346,22 +367,34 @@ public abstract class Critter {
 			case TRIANGLE:
 				s = new Polygon();
 				((Polygon)s).getPoints().addAll(new Double[]{
-						(double) size/2, 0.0,
-						0.0, (double) size,
-						(double) size, (double) size
+						sz/2, 0.0,
+						0.0, sz,
+						sz, sz
 				});
 				break;
 			case DIAMOND:
 				s = new Polygon();
 				((Polygon)s).getPoints().addAll(new Double[]{
-						(double) size/2, 0.0,
-						0.0, (double) size/2,
-						(double) size/2, (double) size,
-						(double) size, (double) size/2
+						sz/2, 0.0,
+						0.0, sz/2,
+						sz/2, sz,
+						sz, sz/2
 				});
 				break;
 			case STAR:
-				//s = new Polygon();
+				s = new Polygon();
+				((Polygon)s).getPoints().addAll(new Double[]{
+						sz*0.5, 0.0,
+						sz*0.375, sz*0.4,
+						0.0, sz*0.4,
+						sz*0.31, sz*0.625,
+						sz*0.2, sz,
+						sz*0.5, sz*0.775,
+						sz*0.8, sz,
+						sz*0.69, sz*0.625,
+						sz, sz*0.4,
+						sz*0.625, sz*0.4
+				});
 				break;
 		}
 		s.setFill(c.viewFillColor());
@@ -512,8 +545,10 @@ public abstract class Critter {
 
 	private static void doEncounters() {
 		List<Critter> shared = new ArrayList<Critter>();
-		for (int x = 0; x < Params.world_width; x++) {
-			for (int y = 0; y < Params.world_height; y++) {
+		int worldWidth = Params.world_width;
+		int worldHeight = Params.world_height;
+		for (int x = 0; x < worldWidth; x++) {
+			for (int y = 0; y < worldHeight; y++) {
 				//add all critters in this position to list
 				for (Critter c : population) {
 					if (c.x_coord == x && c.y_coord == y && c.energy > 0) {
