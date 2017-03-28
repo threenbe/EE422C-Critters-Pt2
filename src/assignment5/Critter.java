@@ -329,8 +329,16 @@ public abstract class Critter {
 			for (int y = 0; y < worldHeight; y++) {
 				if (c_array[x][y]!=null) {
 					s = getIcon(c_array[x][y], size);
-					s.setTranslateX(x*size);
-		            s.setTranslateY(y*size);
+					switch(c_array[x][y].viewShape()){
+					case CIRCLE:
+						s.setTranslateX(x*size + size/2);
+						s.setTranslateY(y*size + size/2);
+						break;
+					default:
+						s.setTranslateX(x*size);
+						s.setTranslateY(y*size);
+						break;
+					}
 					display.getChildren().add(s);
 				}
 			}
