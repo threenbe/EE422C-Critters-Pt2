@@ -522,27 +522,6 @@ public abstract class Critter {
 		}
 		return stats;
 	}
-	/*old runStats
-	public static void runStats(List<Critter> critters) {
-		System.out.print("" + critters.size() + " critters as follows -- ");
-		java.util.Map<String, Integer> critter_count = new java.util.HashMap<String, Integer>();
-		for (Critter crit : critters) {
-			String crit_string = crit.toString();
-			Integer old_count = critter_count.get(crit_string);
-			if (old_count == null) {
-				critter_count.put(crit_string,  1);
-			} else {
-				critter_count.put(crit_string, old_count.intValue() + 1);
-			}
-		}
-		String prefix = "";
-		for (String s : critter_count.keySet()) {
-			System.out.print(prefix + s + ":" + critter_count.get(s));
-			prefix = ", ";
-		}
-		System.out.println();		
-	}
-	*/
 
 	private static void doEncounters() {
 		List<Critter> shared = new ArrayList<Critter>();

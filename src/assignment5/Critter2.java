@@ -14,7 +14,7 @@ package assignment5;
 import javafx.scene.paint.Color;
 
 public class Critter2 extends Critter {
-	private int slowMove = 0; // moves every 6 turns
+	private int slowMove = 0; // has the option to move every 5 turns
 /**
  * The Sloth moves very infrequently, and reproduces at a 
  * fairly low energy count.
@@ -26,8 +26,11 @@ public class Critter2 extends Critter {
 			reproduce(child, Critter.getRandomInt(8));
 		}
 		if(slowMove == 0) {
-			slowMove = 5;
-			walk(getRandomInt(8));
+			slowMove = 4;
+			int direction = getRandomInt(8);
+			if(look(direction, false).equals("@")) {
+				walk(direction);
+			}
 		} else slowMove--;
 	}
 
@@ -48,7 +51,7 @@ public class Critter2 extends Critter {
 
 	@Override
 	public CritterShape viewShape() {
-		return Critter.CritterShape.CIRCLE;
+		return Critter.CritterShape.DIAMOND;
 	}
 	@Override
 	public Color viewOutlineColor() {
