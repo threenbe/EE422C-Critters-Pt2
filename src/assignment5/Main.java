@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -111,15 +112,15 @@ public class Main extends Application{
 		TextField critterInput = new TextField();
 		critterInput.setPromptText("Critter type");
 		critterInput.setPrefWidth(350);
-		gridPane.add(critterInput, 0, 2);
+		gridPane.add(critterInput, 0, 3);
 		
-		Label stats = new Label();
-		stats.setPrefWidth(350);
-		gridPane.add(stats, 0, 3);
+		//text for displaying stats
+		Text stats = new Text();
+		gridPane.add(stats, 0, 4);
 		
 		Button runStats = new Button();
 		runStats.setText("Get Statistics");
-		gridPane.add(runStats, 2, 2);
+		gridPane.add(runStats, 2, 3);
 		runStats.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	try {
@@ -143,16 +144,16 @@ public class Main extends Application{
 				TextField critterInput2 = new TextField();
 				critterInput2.setPromptText("Enter desired critter type");
 				critterInput2.setPrefWidth(350);
-				gridPane.add(critterInput2, 0, 4);
+				gridPane.add(critterInput2, 0, 2);
 				
 				TextField amtToSpawn = new TextField();
 				amtToSpawn.setPromptText("How many?");
 				amtToSpawn.setPrefWidth(80);
-				gridPane.add(amtToSpawn, 1, 4);
+				gridPane.add(amtToSpawn, 1, 2);
 				
 				Button createCritters = new Button();
 				createCritters.setText("Create Critters");
-				gridPane.add(createCritters, 2, 4);
+				gridPane.add(createCritters, 2, 2);
 				createCritters.setOnAction(new EventHandler<ActionEvent>() {
 				    @Override public void handle(ActionEvent e) {
 				    	int intToSpawn = 0;
