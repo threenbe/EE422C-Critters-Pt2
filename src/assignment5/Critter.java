@@ -487,14 +487,6 @@ public abstract class Critter {
 	}
 	*/
 	
-	public int xCoord() {
-		return x_coord;
-	}
-	
-	public int yCoord() {
-		return y_coord;
-	}
-	
 	/* create and initialize a Critter subclass
 	 * critter_class_name must be the name of a concrete subclass of Critter, if not
 	 * an InvalidCritterException must be thrown
@@ -584,9 +576,12 @@ public abstract class Critter {
 						//see if the critters want to fight
 						boolean fight_a = a.fight(b.toString());
 						boolean fight_b = b.fight(a.toString());
+						int a_coords = a.x_coord + (a.y_coord*1000000);
+						int b_coords = b.x_coord + (b.y_coord*1000000);
 						
 						//critters fight if these conditions are met
-						if (a.energy > 0 && b.energy > 0) {
+						if (a.energy > 0 && b.energy > 0
+								&& a_coords == coords && b_coords == coords) {
 							
 							int rand_a, rand_b;
 							
