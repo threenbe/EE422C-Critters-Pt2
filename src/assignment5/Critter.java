@@ -565,49 +565,57 @@ public abstract class Critter {
 		// adds the location of each critter to a hashmap (the actual command that does 
 		// this is at the bottom of the for-each).
 		for (Critter a : population) {
-			int coords = a.x_coord + (a.y_coord * 1000000);
-			// checks if the location is already there ie there are two critters there.
-			if(critterLocations.containsKey(coords)) {
-				// finds the other critter
-				for(Critter b : population) {
-					int coords2 = b.x_coord + (b.y_coord * 1000000);
-					if(coords == coords2) {
-						// same code as before
-						//see if the critters want to fight
-						boolean fight_a = a.fight(b.toString());
-						boolean fight_b = b.fight(a.toString());
-						int a_coords = a.x_coord + (a.y_coord*1000000);
-						int b_coords = b.x_coord + (b.y_coord*1000000);
-						
-						//critters fight if these conditions are met
-						if (a.energy > 0 && b.energy > 0
-								&& a_coords == coords && b_coords == coords) {
-							
-							int rand_a, rand_b;
-							
-							if (fight_a)
-								rand_a = getRandomInt(a.energy);
-							else
-								rand_a = 0;
-							
-							if (fight_b)
-								rand_b = getRandomInt(b.energy);
-							else
-								rand_b = 0;
+			if (a.energy > 0) {
+				int coords = a.x_coord + (a.y_coord * 1000000);
+				// checks if the location is already there ie there are two critters there.
+				if(critterLocations.containsKey(coords)) {
+					// finds the other critter
+					for(Critter b : population) {
+						if (b.energy> 0) {
+							int coords2 = b.x_coord + (b.y_coord * 1000000);
+							if(coords == coords2) {
+								// same code as before
+								//see if the critters want to fight
+								boolean fight_a = a.fight(b.toString());
+								boolean fight_b = b.fight(a.toString());
+								int a_coords = a.x_coord + (a.y_coord*1000000);
+								int b_coords = b.x_coord + (b.y_coord*1000000);
 								
-							if (rand_a > rand_b) {
-								a.energy += (b.energy/2);
-								b.energy = 0;
-							} else {
-								b.energy += (a.energy/2);
-								a.energy = 0;
+								//critters fight if these conditions are met
+								if (a.energy > 0 && b.energy > 0
+										&& a_coords == coords && b_coords == coords) {
+									
+									int rand_a, rand_b;
+									
+									if (fight_a)
+										rand_a = getRandomInt(a.energy);
+									else
+										rand_a = 0;
+									
+									if (fight_b)
+										rand_b = getRandomInt(b.energy);
+									else
+										rand_b = 0;
+										
+									if (rand_a > rand_b) {
+										a.energy += (b.energy/2);
+										b.energy = 0;
+									} else {
+										b.energy += (a.energy/2);
+										a.energy = 0;
+									}
+								}
+								// check if both moved/died
+								if((a.energy < 0 || a_coords != coords) && (b.energy < 0 || b_coords != coords)) {
+									critterLocations.remove(coords);
+								}
+								break;
 							}
 						}
-						break;
 					}
 				}
+				critterLocations.put(coords, 0);
 			}
-			critterLocations.put(coords, 0);
 		}
 		
 		
