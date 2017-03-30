@@ -312,14 +312,28 @@ public abstract class Critter {
 		int height = 700;
 		int worldWidth = Params.world_width;
 		int worldHeight = Params.world_height;
-		int size;
+		int size = width/worldWidth;
+		if (size > height/worldHeight) size = height/worldHeight;
 		
-		int size1 = width/worldWidth;
-		int size2 = height/worldHeight;
-		if(size1 <= size2) size = size1;
-		else size = size2;
+		Shape t = new Rectangle(width, height);
+		t.setFill(Color.WHITE);
+		t.setStroke(Color.LIGHTGRAY);
+		display.getChildren().add(t);
+		for (int i = 1; i < worldWidth; i++) {
+			Shape s = new Rectangle(2, height);
+			s.setFill(Color.LIGHTGRAY);
+			s.setTranslateX(i*size - 1);
+			display.getChildren().add(s);
+		}
+		for (int i = 1; i < worldHeight; i++) {
+			Shape s = new Rectangle(width, 2);
+			s.setFill(Color.LIGHTGRAY);
+			s.setTranslateY(i*size - 1);
+			display.getChildren().add(s);
+		}
 		
-		for (int i = 0; i < worldWidth; i++) {
+		
+		/*for (int i = 0; i < worldWidth; i++) {
 			for (int j = 0; j < worldHeight; j++) {
 				Shape s = new Rectangle(size, size);
 				s.setFill(Color.WHITE);
@@ -328,7 +342,7 @@ public abstract class Critter {
 	            s.setTranslateY(j*size);
 				display.getChildren().add(s);
 			}
-		}
+		}*/
 		
 		//record each critter position here
 		Critter[][] c_array = new Critter[worldWidth][worldHeight];
