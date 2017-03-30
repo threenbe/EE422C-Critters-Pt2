@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
@@ -75,6 +76,8 @@ public class Main extends Application{
 				
 		//text for displaying stats
 		Text stats = new Text();
+		stats.setWrappingWidth(360);
+		stats.setFont(Font.font("Verdana", 12));
 		gridPane.add(stats, 0, 5);
 				
 		Button runStats = new Button();
