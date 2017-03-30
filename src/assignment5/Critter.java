@@ -1,5 +1,7 @@
 package assignment5;
 
+import java.awt.Point;
+
 /* CRITTERS Critter.java
  * EE422C Project 5 submission by
  * Timberlon Gray
@@ -15,6 +17,7 @@ package assignment5;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import javafx.scene.Group;
@@ -226,7 +229,7 @@ public abstract class Critter {
 		if (getEncounterStatus()) {
 			for (Critter c : population) {
 				//if a critter is found in our spot then we return false
-				if (x == c.x_coord && y == c.y_coord) {
+				if (x == c.x_coord && y == c.y_coord && c.energy > 0) {
 					ok = false;
 					break;
 				}
@@ -573,29 +576,34 @@ public abstract class Critter {
 	}
 	
 	private static void doEncounters() {
-		HashMap<Integer, Integer> critterLocations = new HashMap<Integer, Integer>();
+		//HashMap<Integer, Integer> critterLocations = new HashMap<Integer, Integer>();
+		HashSet<Point> critterLocations = new HashSet<Point>();
 		// adds the location of each critter to a hashmap (the actual command that does 
 		// this is at the bottom of the for-each).
 		for (Critter a : population) {
 			if (a.energy > 0) {
-				int coords = a.x_coord + (a.y_coord * 1000000);
+				//int coords = a.x_coord + (a.y_coord * 1000000);
+				Point coords = new Point(a.x_coord, a.y_coord);
 				// checks if the location is already there ie there are two critters there.
-				if(critterLocations.containsKey(coords)) {
+				if(critterLocations.contains(coords)) {
 					// finds the other critter
 					for(Critter b : population) {
 						if (b.energy> 0) {
-							int coords2 = b.x_coord + (b.y_coord * 1000000);
-							if(coords == coords2) {
+							//int coords2 = b.x_coord + (b.y_coord * 1000000);
+							Point coords2 = new Point(b.x_coord, b.y_coord);
+							if(coords.equals(coords2)) {
 								// same code as before
 								//see if the critters want to fight
 								boolean fight_a = a.fight(b.toString());
 								boolean fight_b = b.fight(a.toString());
-								int a_coords = a.x_coord + (a.y_coord*1000000);
-								int b_coords = b.x_coord + (b.y_coord*1000000);
+								Point a_coords = new Point(a.x_coord, a.y_coord);
+								Point b_coords = new Point(b.x_coord, b.y_coord);
+								//int a_coords = a.x_coord + (a.y_coord*1000000);
+								//int b_coords = b.x_coord + (b.y_coord*1000000);
 								
 								//critters fight if these conditions are met
 								if (a.energy > 0 && b.energy > 0
-										&& a_coords == coords && b_coords == coords) {
+										&& a_coords.equals(coords) && b_coords.equals(coords)) {
 									
 									int rand_a, rand_b;
 									
@@ -618,7 +626,8 @@ public abstract class Critter {
 									}
 								}
 								// check if both moved/died
-								if((a.energy < 0 || a_coords != coords) && (b.energy < 0 || b_coords != coords)) {
+								if((a.energy <= 0 || !a_coords.equals(coords)) 
+										&& (b.energy <= 0 || !b_coords.equals(coords))) {
 									critterLocations.remove(coords);
 								}
 								break;
@@ -627,7 +636,8 @@ public abstract class Critter {
 					}
 				}
 				else {
-					critterLocations.put(coords, 0);
+					//critterLocations.put(coords, 0);
+					critterLocations.add(coords);
 				}
 			}
 		}
