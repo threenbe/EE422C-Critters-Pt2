@@ -19,10 +19,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -315,20 +313,22 @@ public abstract class Critter {
 		int size = width/worldWidth;
 		if (size > height/worldHeight) size = height/worldHeight;
 		
-		Shape t = new Rectangle(width, height);
+		int worldPixelWidth = size*worldWidth;
+		int worldPixelHeight = size*worldHeight;
+		Shape t = new Rectangle(worldPixelWidth, worldPixelHeight);
 		t.setFill(Color.WHITE);
 		t.setStroke(Color.LIGHTGRAY);
 		display.getChildren().add(t);
 		for (int i = 1; i < worldWidth; i++) {
-			Shape s = new Rectangle(2, height);
+			Shape s = new Rectangle(1, worldPixelHeight);
 			s.setFill(Color.LIGHTGRAY);
-			s.setTranslateX(i*size - 1);
+			s.setTranslateX(i*size);
 			display.getChildren().add(s);
 		}
 		for (int i = 1; i < worldHeight; i++) {
-			Shape s = new Rectangle(width, 2);
+			Shape s = new Rectangle(worldPixelWidth, 1);
 			s.setFill(Color.LIGHTGRAY);
-			s.setTranslateY(i*size - 1);
+			s.setTranslateY(i*size);
 			display.getChildren().add(s);
 		}
 		
@@ -355,15 +355,15 @@ public abstract class Critter {
 		for (int x = 0; x < worldWidth; x++) {
 			for (int y = 0; y < worldHeight; y++) {
 				if (c_array[x][y]!=null) {
-					s = getIcon(c_array[x][y], size);
+					s = getIcon(c_array[x][y], size-1);
 					switch(c_array[x][y].viewShape()){
 					case CIRCLE:
-						s.setTranslateX(x*size + size/2);
-						s.setTranslateY(y*size + size/2);
+						s.setTranslateX(x*size + size/2 + 1);
+						s.setTranslateY(y*size + size/2 + 1);
 						break;
 					default:
-						s.setTranslateX(x*size);
-						s.setTranslateY(y*size);
+						s.setTranslateX(x*size + 1);
+						s.setTranslateY(y*size + 1);
 						break;
 					}
 					display.getChildren().add(s);
