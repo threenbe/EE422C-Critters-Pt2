@@ -628,7 +628,9 @@ public abstract class Critter {
 						}
 					}
 				}
-				critterLocations.put(coords, 0);
+				else {
+					critterLocations.put(coords, 0);
+				}
 			}
 		}
 		
