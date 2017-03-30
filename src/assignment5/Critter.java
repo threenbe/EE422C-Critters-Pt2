@@ -16,7 +16,6 @@ import java.awt.Point;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -333,18 +332,6 @@ public abstract class Critter {
 			display.getChildren().add(s);
 		}
 		
-		
-		/*for (int i = 0; i < worldWidth; i++) {
-			for (int j = 0; j < worldHeight; j++) {
-				Shape s = new Rectangle(size, size);
-				s.setFill(Color.WHITE);
-				s.setStroke(Color.LIGHTGRAY);
-				s.setTranslateX(i*size);
-	            s.setTranslateY(j*size);
-				display.getChildren().add(s);
-			}
-		}*/
-		
 		//record each critter position here
 		Critter[][] c_array = new Critter[worldWidth][worldHeight];
 		for (Critter c : population) {
@@ -371,47 +358,6 @@ public abstract class Critter {
 				}
 			}
 		}
-		
-		
-		/*GridPane grid = (GridPane) pane;
-		int width = 700;
-		int height = 700;
-		int worldWidth = Params.world_width;
-		int worldHeight = Params.world_height;
-		
-		int size = (int) ((width*0.99)/Params.world_width);
-		
-		//record each critter position here
-		Critter[][] c_array = new Critter[worldWidth][worldHeight];
-		for (Critter c : population) {
-			int x = c.x_coord;
-			int y = c.y_coord;
-			c_array[x][y] = c;
-		}
-		//draw grid lines
-		for (int i = 0; i < worldWidth; i++) {
-			for (int j = 0; j < worldHeight; j++) {
-				Shape s = new Rectangle(size, size);
-				s.setFill(Color.WHITE);
-				s.setStroke(Color.LIGHTGRAY);
-				grid.add(s, i, j);
-			}
-		}
-		//fill in critters
-		double critter_size = size*0.95;
-		size = (int) critter_size;
-		Shape s = null;
-		for (int x = 0; x < worldWidth; x++) {
-			for (int y = 0; y < worldHeight; y++) {
-				if (c_array[x][y]!=null) {
-					s = getIcon(c_array[x][y], size);
-					grid.add(s, x, y);
-				}
-			}
-		}*/
-		
-		
-		
 	}
 	
 	private static Shape getIcon(Critter c, int size) {
@@ -443,7 +389,6 @@ public abstract class Critter {
 				break;
 			case STAR:
 				s = new Polygon();
-				sz *= 0.9;
 				((Polygon)s).getPoints().addAll(new Double[]{
 						sz*0.5, 0.0,
 						sz*0.375, sz*0.4,
@@ -462,45 +407,6 @@ public abstract class Critter {
 		s.setStroke(c.viewOutlineColor());
 		return s;
 	}
-	/* Alternate displayWorld, where you use Main.<pane> to reach into your
-	   display component.
-	   Old display world:
-	   public static void displayWorld() {
-		// creates and populates 2D array representation of all the critters
-		char[][] world = new char[Params.world_width][Params.world_height];
-		
-		for (int x = 0; x < Params.world_width; x++) {
-			for (int y = 0; y < Params.world_height; y++) {
-				world[x][y] = ' ';
-			}
-		}
-		
-		for(Critter current : population) {
-				world[current.x_coord][current.y_coord] = current.toString().charAt(0);
-		}
-		// prints the 2D array + border out
-		// top border
-		System.out.print("+");
-		for(int i = 0; i < Params.world_width; i++) {
-			System.out.print("-");
-		}
-		System.out.println("+");
-		// each row of the map (with borders on left/right)
-		for(int j = 0; j < Params.world_height; j++) {
-			System.out.print("|");
-			for(int k = 0; k < Params.world_width; k++) {
-				System.out.print(world[k][j]);
-			}
-			System.out.println("|");
-		}
-		// bottom border
-		System.out.print("+");
-		for(int k = 0; k < Params.world_width; k++) {
-			System.out.print("-");
-		}
-		System.out.println("+");
-	}
-	*/
 	
 	/* create and initialize a Critter subclass
 	 * critter_class_name must be the name of a concrete subclass of Critter, if not
@@ -641,64 +547,6 @@ public abstract class Critter {
 				}
 			}
 		}
-		
-		
-		/*List<Critter> shared = new ArrayList<Critter>();
-		int worldWidth = Params.world_width;
-		int worldHeight = Params.world_height;
-		for (int x = 0; x < worldWidth; x++) {
-			for (int y = 0; y < worldHeight; y++) {
-				//add all critters in this position to list
-				for (Critter c : population) {
-					if (c.x_coord == x && c.y_coord == y && c.energy > 0) {
-						shared.add(c);
-					}
-				}
-				//take care of encounters until there are 0-1 critters left
-				while (shared.size() > 1) {
-					Critter a = shared.get(0);
-					Critter b = shared.get(1);
-					//see if the critters want to fight
-					boolean fight_a = a.fight(b.toString());
-					boolean fight_b = b.fight(a.toString());
-					
-					//critters fight if these conditions are met
-					if (a.energy > 0 && b.energy > 0 
-							&& a.x_coord == x && a.y_coord == y
-							&& b.x_coord == x && b.y_coord == y) {
-						
-						int rand_a, rand_b;
-						
-						if (fight_a)
-							rand_a = getRandomInt(a.energy);
-						else
-							rand_a = 0;
-						
-						if (fight_b)
-							rand_b = getRandomInt(b.energy);
-						else
-							rand_b = 0;
-							
-						if (rand_a > rand_b) {
-							a.energy += (b.energy/2);
-							b.energy = 0;
-						} else {
-							b.energy += (a.energy/2);
-							a.energy = 0;
-						}
-					}
-					
-					//dead critters removed from list of critters at this position
-					//should also remove if the critters move
-					if (a.energy <= 0 || a.x_coord != x || a.y_coord != y)
-						shared.remove(a);
-					if (b.energy <= 0 || b.x_coord != x || b.y_coord != y)
-						shared.remove(b);	
-				}
-				//"shared" list cleared so that the next position can be handled
-				shared.clear();
-			}
-		}*/
 	}
 
 	/**
