@@ -12,9 +12,7 @@ package assignment5;
  * Spring 2017
  */
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -27,13 +25,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import java.io.*;
 import java.lang.reflect.Method;
 
 public class Main extends Application{
+	private int maxSimWidth = 900;
+	private int maxSimHeight = 700;
 	private double simSpeed = 50;
 	private boolean isRunning = false;
 	private static String myPackage;
@@ -51,13 +48,16 @@ public class Main extends Application{
 		// GridPane for all the buttons and text boxes
 		GridPane gridPane = new GridPane();
 		
-		//GridPane for world
-		int width=700,height=700;
-    	//GridPane pane = new GridPane();
+		//Group for world
+		int wWidth=Params.world_width;
+		int wHeight=Params.world_height;
+		int size1 = maxSimWidth/wWidth;
+		if (size1 > maxSimHeight/wHeight) size1 = maxSimHeight/wHeight;
+		int size = size1;
 		Group pane = new Group();
     	Stage stage = new Stage();
-		stage.setTitle("world");
-		Scene scene = new Scene(pane,width,height);
+		stage.setTitle("World");
+		Scene scene = new Scene(pane,wWidth*size, wHeight*size);
 		stage.setScene(scene);
 		stage.show();
 		
@@ -231,7 +231,7 @@ public class Main extends Application{
 			    	}
 			    	stats.setText("");
 			    }
-                Critter.displayWorld(pane);
+            	Critter.displayWorld(pane);
             }
         };
         /*TextField animationSpeed = new TextField();

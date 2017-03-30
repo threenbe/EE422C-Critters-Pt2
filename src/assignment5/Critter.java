@@ -14,19 +14,15 @@ package assignment5;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.stage.Stage;
 
 public abstract class Critter {
 	/* NEW FOR PROJECT 5 */
@@ -304,27 +300,29 @@ public abstract class Critter {
 		removeDeadCritters();
 	}
 	
-	public static void displayWorld(Object pane) {
-		Group display = (Group) pane;
-		int width = 700;
-		int height = 700;
-		int worldWidth = Params.world_width;
+	public static void displayWorld(Group display) {
+		int worldWidth = Params.world_width;	// dimensions of grid
 		int worldHeight = Params.world_height;
-		int size = width/worldWidth;
-		if (size > height/worldHeight) size = height/worldHeight;
-		
-		int worldPixelWidth = size*worldWidth;
+		int maxSimWidth = 900;
+		int maxSimHeight = 700;
+		int size = maxSimWidth/worldWidth;
+		if (size > maxSimHeight/worldHeight) size = maxSimHeight/worldHeight;
+		int worldPixelWidth = size*worldWidth;	// dimensions in pixels
 		int worldPixelHeight = size*worldHeight;
+		
+		// prints white bg and edges
 		Shape t = new Rectangle(worldPixelWidth, worldPixelHeight);
 		t.setFill(Color.WHITE);
 		t.setStroke(Color.LIGHTGRAY);
 		display.getChildren().add(t);
+		// prints vertical grid lines
 		for (int i = 1; i < worldWidth; i++) {
 			Shape s = new Rectangle(1, worldPixelHeight);
 			s.setFill(Color.LIGHTGRAY);
 			s.setTranslateX(i*size);
 			display.getChildren().add(s);
 		}
+		// prints horizontal grid lines
 		for (int i = 1; i < worldHeight; i++) {
 			Shape s = new Rectangle(worldPixelWidth, 1);
 			s.setFill(Color.LIGHTGRAY);
