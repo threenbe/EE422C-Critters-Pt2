@@ -201,7 +201,7 @@ public class Main extends Application{
 							}
 						}
 						stats.setText(critter_stats);
-					 	errorMsg.setText("");
+					 	//errorMsg.setText("");
 				    } catch (Exception f){
 				    	//errorMsg.setText("You did not enter a known critter type for stats!");
 				    	stats.setText("");
@@ -324,10 +324,7 @@ public class Main extends Application{
         animationSpeed.setMax(100);
         animationSpeed.setValue(50);
         animationSpeed.setShowTickMarks(true);
-        animationSpeed.setShowTickLabels(true);
-        animationSpeed.setMajorTickUnit(50);
         animationSpeed.setBlockIncrement(5);
-        animationSpeed.setMinorTickCount(5);
 		gridPane.add(animationSpeed, 0, 3);
 		
 		Button animationToggle = new Button();
