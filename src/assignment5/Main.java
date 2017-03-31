@@ -1,5 +1,7 @@
 package assignment5;
 
+import java.util.ArrayList;
+
 /* CRITTERS Main.java
  * EE422C Project 5 submission by
  * Timberlon Gray
@@ -27,6 +29,8 @@ import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.control.*;
+
+import java.io.File;
 import java.lang.reflect.Method;
 
 public class Main extends Application{
@@ -46,6 +50,36 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) {
+		//code for getting class names
+		String path = System.getProperty("user.dir");
+		String files[] = null;
+		try {
+			String bin = path + File.separator + "bin" + File.separator + myPackage;
+			File f = new File(bin);
+			files = f.list();
+			for (int i = 0; i < files.length; i++) {
+				files[i] = files[i].substring(0, files[i].length()-6);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//get list of Critter subclasses
+		ArrayList<String> classes = new ArrayList<String>();
+		for (int i = 0; i < files.length; i++) {
+			Class<?> my_critter = null;
+			try {
+				my_critter = Class.forName(myPackage + "." + files[i]);
+				if (Critter.class.isAssignableFrom(my_critter)
+						&& !files[i].equals("Critter$TestCritter") 
+						&& !files[i].equals("Critter")) {
+					classes.add(files[i]);
+				}
+			}
+			catch (ClassNotFoundException | NoClassDefFoundError e) {
+				my_critter = null;
+			}
+		}
+		
 		// GridPane for all the buttons and text boxes
 		GridPane gridPane = new GridPane();
 		
