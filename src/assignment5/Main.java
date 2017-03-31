@@ -228,7 +228,10 @@ public class Main extends Application{
 				    		intToSpawn = Integer.parseInt(amtToSpawn.getText());
 				    		errorMsg.setText("");
 			    		} catch (Exception f){
-			    			errorMsg.setText("Number of critters specified is not an integer!");
+			    			if (critterInput2.getValue() == null) 
+			    				errorMsg.setText("Please specify a critter type and a valid number of critters.");
+			    			else
+			    				errorMsg.setText("Number of critters specified is not an integer!");
 			    		}
 				    	try {
 				    		while(intToSpawn > 0) {
@@ -236,7 +239,7 @@ public class Main extends Application{
 			    				intToSpawn--;
 			    			}
 				    	} catch (Exception g) {
-				    		errorMsg.setText("Critter type specified is not valid!");
+				    		errorMsg.setText("Please specify a critter type.");
 				    	}
 				    	Critter.displayWorld(pane);
 				    }
