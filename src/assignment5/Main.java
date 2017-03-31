@@ -64,7 +64,7 @@ public class Main extends Application{
 			e.printStackTrace();
 		}
 		//get list of Critter subclasses
-		ArrayList<String> classes = new ArrayList<String>();
+		List<String> classes = new ArrayList<String>();
 		for (int i = 0; i < files.length; i++) {
 			Class<?> my_critter = null;
 			try {
@@ -201,10 +201,17 @@ public class Main extends Application{
 		});
 		
 		// Code to create critters. Includes text box for critter type, amount desired, and button to activate.
-				TextField critterInput2 = new TextField();
+				/*TextField critterInput2 = new TextField();
 				critterInput2.setPromptText("Enter desired critter type");
 				critterInput2.setPrefWidth(350);
-				gridPane.add(critterInput2, 0, 2);
+				gridPane.add(critterInput2, 0, 2);*/
+				final ComboBox<String> critterInput2 = new ComboBox<String>();
+				List<String> classes2 = new ArrayList<String>();
+				classes2.addAll(classes);
+				classes2.remove("Algae");
+ 				critterInput2.getItems().addAll(classes2);
+ 				critterInput2.setPrefWidth(350);
+ 				gridPane.add(critterInput2, 0, 2);
 				
 				TextField amtToSpawn = new TextField();
 				amtToSpawn.setPromptText("How many?");
@@ -225,7 +232,7 @@ public class Main extends Application{
 			    		}
 				    	try {
 				    		while(intToSpawn > 0) {
-			    				Critter.makeCritter(critterInput2.getText());
+			    				Critter.makeCritter(critterInput2.getValue());
 			    				intToSpawn--;
 			    			}
 				    	} catch (Exception g) {
