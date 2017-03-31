@@ -230,6 +230,8 @@ public class Main extends Application{
 			    		} catch (Exception f){
 			    			if (critterInput2.getValue() == null) 
 			    				errorMsg.setText("Please specify a critter type and a valid number of critters.");
+			    			else if (amtToSpawn.getText().equals(""))
+			    				errorMsg.setText("Please specify a valid number of critters.");
 			    			else
 			    				errorMsg.setText("Number of critters specified is not an integer!");
 			    		}
