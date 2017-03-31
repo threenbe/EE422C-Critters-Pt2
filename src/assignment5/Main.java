@@ -153,8 +153,14 @@ public class Main extends Application{
 							critter_stats = critter_stats + (String) method.invoke(null, list_of_instances) + "\n\n";
 						}
 					}
-					stats.setText(critter_stats);
-				 	errorMsg.setText("");
+					if (critter_stats.equals("")) {
+						stats.setText("");
+						errorMsg.setText("Please choose at least one critter type.");
+					}
+					else {
+						stats.setText(critter_stats);
+						errorMsg.setText("");
+					}
 			    } catch (Exception f){
 			    	errorMsg.setText("You did not enter a known critter type for stats!");
 			    	stats.setText("");
