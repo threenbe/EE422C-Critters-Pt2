@@ -116,6 +116,7 @@ public class Main extends Application{
 	
 		MenuButton critterInput = new MenuButton();
 		critterInput.setPrefWidth(350);
+		critterInput.setText("Choose critter stats to display");
 		List<CheckMenuItem> class_items = new ArrayList<CheckMenuItem>();
 		HashMap<String, Boolean> display_or_not = new HashMap<String, Boolean>();
 		for (String s : classes) {
@@ -130,13 +131,37 @@ public class Main extends Application{
 					} else {
 						display_or_not.put(m.getText(), false);
 					}
+					try {
+						String critter_stats = "";
+						for (String critter_class_name : display_or_not.keySet()) {
+							if (display_or_not.get(critter_class_name) == true) {
+								List<Critter> list_of_instances = Critter.getInstances(critter_class_name);
+								String critter_class = myPackage + "." + critter_class_name;
+								Class<?> type = Class.forName(critter_class);
+								Method method = type.getMethod("runStats", List.class);
+								critter_stats = critter_stats + critter_class_name + " stats:\n";
+								critter_stats = critter_stats + (String) method.invoke(null, list_of_instances) + "\n\n";
+							}
+						}
+						if (critter_stats.equals("")) {
+							stats.setText("");
+							errorMsg.setText("Please choose at least one critter type.");
+						}
+						else {
+							stats.setText(critter_stats);
+							errorMsg.setText("");
+						}
+				    } catch (Exception f){
+				    	errorMsg.setText("You did not enter a known critter type for stats!");
+				    	stats.setText("");
+				    }
 				}
 			});
 		}
 		critterInput.getItems().addAll(class_items);
 		gridPane.add(critterInput, 0, 4);
 				
-		Button runStats = new Button();
+		/*Button runStats = new Button();
 		runStats.setText("Get Statistics");
 		gridPane.add(runStats, 2, 4);
 		runStats.setOnAction(new EventHandler<ActionEvent>() {
@@ -166,7 +191,7 @@ public class Main extends Application{
 			    	stats.setText("");
 			    }
 			}
-		});
+		});*/
 		
 		// Time Step button and text box functionality
 		TextField stepInput = new TextField();
@@ -338,7 +363,7 @@ public class Main extends Application{
 		    		createCritters.setDisable(false);
 		    		amtToSpawn.setDisable(false);
 		    		critterInput2.setDisable(false);
-		    		runStats.setDisable(false);
+		    		//runStats.setDisable(false);
 		    		critterInput.setDisable(false);
 		    		stats.setDisable(false);
 		    		seedSet.setDisable(false);
@@ -353,7 +378,7 @@ public class Main extends Application{
 		    		createCritters.setDisable(true);
 		    		amtToSpawn.setDisable(true);
 		    		critterInput2.setDisable(true);
-		    		runStats.setDisable(true);
+		    		//runStats.setDisable(true);
 		    		critterInput.setDisable(true);
 		    		stats.setDisable(true);
 		    		seedSet.setDisable(true);
