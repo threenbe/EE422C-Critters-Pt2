@@ -615,7 +615,7 @@ public abstract class Critter {
 	/**
 	 * Removes "dead" critters i.e. critters with no energy
 	 */
-	public static void removeDeadCritters() {
+	private static void removeDeadCritters() {
 		Iterator<Critter> i = population.iterator();
 		while (i.hasNext()) {
 			Critter c = i.next();
