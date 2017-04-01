@@ -263,10 +263,7 @@ public class Main extends Application{
 				critterInput2.setPrefWidth(350);
 				gridPane.add(critterInput2, 0, 2);*/
 				final ComboBox<String> critterInput2 = new ComboBox<String>();
-				List<String> classes2 = new ArrayList<String>();
-				classes2.addAll(classes);
-				classes2.remove("Algae");
- 				critterInput2.getItems().addAll(classes2);
+ 				critterInput2.getItems().addAll(classes);
  				critterInput2.setPrefWidth(350);
  				gridPane.add(critterInput2, 0, 2);
 				
