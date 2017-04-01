@@ -64,6 +64,12 @@ public abstract class Critter {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
 	}
 	
+	/**
+	 * Lets a critter see if and what critter exists at a location near it.
+	 * @param direction - what direction the critter is looking in; integer from 0 to 7.
+	 * @param steps - false = 1 square away, true = 2 squares away
+	 * @return - the toString() identifier of the critter at the location, or null if no critter is there.
+	 */
 	protected final String look(int direction, boolean steps) {
 		energy -= Params.look_energy_cost;
 		int w = Params.world_width;
@@ -160,7 +166,10 @@ public abstract class Critter {
 	}
 	
 	
-	
+	/**
+	 * checks if the critter already moved, then calls move() below for 1 step. 
+	 * @param direction
+	 */
 	protected final void walk(int direction) {
 		if (!already_moved) {
 			already_moved = true;
@@ -168,7 +177,10 @@ public abstract class Critter {
 		}
 		energy -= Params.walk_energy_cost;
 	}
-	
+	/**
+	 * checks if the critter already moved, then calls move() below for 2 steps. 
+	 * @param direction
+	 */
 	protected final void run(int direction) {
 		if (!already_moved) {
 			already_moved = true;
@@ -177,6 +189,11 @@ public abstract class Critter {
 		energy -= Params.run_energy_cost;
 	}
 	
+	/**
+	 * Moves a critter according to the direction and steps values input.
+	 * @param direction - direction that the critter will move in.
+	 * @param steps - how many spaces the critter will move in that direction.
+	 */
 	private final void move(int direction, int steps) {
 		int w = Params.world_width;
 		int h = Params.world_height;
@@ -222,6 +239,12 @@ public abstract class Critter {
 		}
 	}
 	
+	/**
+	 * Makes sure that the place the Critter is trying ot move into isn't already occupied.
+	 * @param x - coordinate to be moved into
+	 * @param y - coordinate to be moved into
+	 * @return - whether its ok or not
+	 */
 	private boolean moveOK(int x, int y) {
 		boolean ok = true;//it's OK to move by default
 		//if we don't have to check for critters then the function returns true
@@ -237,6 +260,14 @@ public abstract class Critter {
 		return ok;
 	}
 	
+	/**
+	 * Takes a newly initialized offspring and places it into the world according 
+	 * to the parent's location and the direction input. Then changes the energy 
+	 * values of the parent and offspring as stated in the assignment info.
+	 * @param offspring - newly initialized Critter
+	 * @param direction - direction in relation to the parent that the critter 
+	 * should be placed.
+	 */
 	protected final void reproduce(Critter offspring, int direction) {
 		// check if parent has enough energy
 		if(this.getEnergy() < Params.min_reproduce_energy) return;
@@ -254,7 +285,10 @@ public abstract class Critter {
 	public abstract void doTimeStep();
 	public abstract boolean fight(String oponent);
 	
-	
+	/**
+	 * Performs all necessary work associated with each "step" done across 
+	 * the whole simulation. See notes in code for details. 
+	 */
 	public static void worldTimeStep() {
 		setEncounterStatus(false);
 		
@@ -302,6 +336,10 @@ public abstract class Critter {
 		removeDeadCritters();
 	}
 	
+	/**
+	 * Fills a Group with a grid and all the live critters to be displayed.
+	 * @param display - the Group that holds everything.
+	 */
 	public static void displayWorld(Group display) {
 		int worldWidth = Params.world_width;	// dimensions of grid
 		int worldHeight = Params.world_height;
@@ -360,6 +398,12 @@ public abstract class Critter {
 		}
 	}
 	
+	/**
+	 * Returns the Shape speficied by the class of the critter type specified
+	 * @param c - critter type specified
+	 * @param size - how big the shape should be (in pixels)
+	 * @return - shape of the correct type and size
+	 */
 	private static Shape getIcon(Critter c, int size) {
 		Shape s = null;
 		double sz = (double) size;
@@ -408,9 +452,15 @@ public abstract class Critter {
 		return s;
 	}
 	
-	/* create and initialize a Critter subclass
-	 * critter_class_name must be the name of a concrete subclass of Critter, if not
-	 * an InvalidCritterException must be thrown
+	/**
+	 * create and initialize a Critter subclass.
+	 * critter_class_name must be the unqualified name of a concrete subclass of Critter, if not,
+	 * an InvalidCritterException must be thrown.
+	 * (Java weirdness: Exception throwing does not work properly if the parameter has lower-case instead of
+	 * upper. For example, if craig is supplied instead of Craig, an error is thrown instead of
+	 * an Exception.)
+	 * @param critter_class_name - name of critter
+	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
 		Class<?> my_critter = null;
@@ -442,7 +492,13 @@ public abstract class Critter {
 		c.already_moved = false;
 		population.add(c);
 	}
-	
+
+/**
+ * gets a list of critters of a specific type.
+ * @param critter_class_name - the critter specified
+ * @return list of critters
+ * @throws InvalidCritterException
+ */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
 		critter_class_name = myPackage + "." + critter_class_name;
@@ -460,6 +516,10 @@ public abstract class Critter {
 		return result;
 	}
 	
+	/**
+	 * Prints out how many Critters of each type there are on the board.
+	 * @param critters List of Critters.
+	 */
 	public static String runStats(List<Critter> critters) {
 		String stats = "";
 		stats = stats + critters.size() + " critters as follows -- ";
@@ -481,6 +541,9 @@ public abstract class Critter {
 		return stats;
 	}
 	
+	/*
+	 * Carries out each Encounter i.e. whenever two Critters are in the same location. 
+	 */
 	private static void doEncounters() {
 		//HashMap<Integer, Integer> critterLocations = new HashMap<Integer, Integer>();
 		HashSet<Point> critterLocations = new HashSet<Point>();
