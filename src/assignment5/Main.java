@@ -41,8 +41,8 @@ public class Main extends Application{
 	private boolean isRunning = false;
 	private static String myPackage;
 	static {
-        myPackage = Critter.class.getPackage().toString().split(" ")[1];
-    }
+		myPackage = Critter.class.getPackage().toString().split(" ")[1];
+	}
 
 	public static void main(String[] args) {
 		launch(args);
@@ -102,7 +102,7 @@ public class Main extends Application{
 		if (size1 > maxSimHeight/wHeight) size1 = maxSimHeight/wHeight;
 		int size = size1;
 		Group pane = new Group();
-    	Stage stage = new Stage();
+		Stage stage = new Stage();
 		stage.setTitle("World");
 		Scene scene = new Scene(pane,wWidth*size, wHeight*size);
 		stage.setScene(scene);
@@ -158,10 +158,10 @@ public class Main extends Application{
 							stats.setText(critter_stats);
 							errorMsg.setText("");
 						}
-				    } catch (Exception f){
-				    	errorMsg.setText("You did not enter a known critter type for stats!");
-				    	stats.setText("");
-				    }
+					} catch (Exception f){
+						errorMsg.setText("You did not enter a known critter type for stats!");
+						stats.setText("");
+					}
 				}
 			});
 		}
@@ -178,17 +178,17 @@ public class Main extends Application{
 		stepButton.setText("Perform Time Steps");
 		gridPane.add(stepButton, 2, 0);
 		stepButton.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		    	int steps = 1;
-		    	try {
-		    		steps = Integer.parseInt(stepInput.getText());
-		    		errorMsg.setText("");
-	    		} catch (Exception f){
-	    			errorMsg.setText("You did not enter an integer for time steps! Default = 1");
-	    		}
-		    	while(steps > 0) {
-		    		Critter.worldTimeStep();
-		    		try {
+			@Override public void handle(ActionEvent e) {
+				int steps = 1;
+				try {
+					steps = Integer.parseInt(stepInput.getText());
+					errorMsg.setText("");
+				} catch (Exception f){
+					errorMsg.setText("You did not enter an integer for time steps! Default = 1");
+				}
+				while(steps > 0) {
+					Critter.worldTimeStep();
+					try {
 						String critter_stats = "";
 						for (String critter_class_name : display_or_not.keySet()) {
 							if (display_or_not.get(critter_class_name) == true) {
@@ -201,15 +201,15 @@ public class Main extends Application{
 							}
 						}
 						stats.setText(critter_stats);
-					 	//errorMsg.setText("");
-				    } catch (Exception f){
-				    	//errorMsg.setText("You did not enter a known critter type for stats!");
-				    	stats.setText("");
-				    }
-		    		steps--;
-		    	}
-		    	Critter.displayWorld(pane);
-		    }
+						//errorMsg.setText("");
+					} catch (Exception f){
+						//errorMsg.setText("You did not enter a known critter type for stats!");
+						stats.setText("");
+					}
+					steps--;
+				}
+				Critter.displayWorld(pane);
+			}
 		});
 		
 		// Seed input and button to set
@@ -222,74 +222,74 @@ public class Main extends Application{
 		seedSet.setText("Set Seed");
 		gridPane.add(seedSet, 2, 1);
 		seedSet.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		    	try {
-		    		Critter.setSeed(Integer.parseInt(seedInput.getText()));
-		    		errorMsg.setText("");
-	    		} catch (Exception f){
-	    			errorMsg.setText("You did not enter an integer for the seed!");
-	    		}
-		    }
+			@Override public void handle(ActionEvent e) {
+				try {
+					Critter.setSeed(Integer.parseInt(seedInput.getText()));
+					errorMsg.setText("");
+				} catch (Exception f){
+					errorMsg.setText("You did not enter an integer for the seed!");
+				}
+			}
 		});
 		
 		// Code to create critters. Includes text box for critter type, amount desired, and button to activate.
 				
-				final ComboBox<String> critterInput2 = new ComboBox<String>();
- 				critterInput2.getItems().addAll(classes);
- 				critterInput2.setPrefWidth(350);
- 				gridPane.add(critterInput2, 0, 2);
-				
-				TextField amtToSpawn = new TextField();
-				amtToSpawn.setPromptText("How many?");
-				amtToSpawn.setPrefWidth(80);
-				gridPane.add(amtToSpawn, 1, 2);
-				
-				Button createCritters = new Button();
-				createCritters.setText("Create Critters");
-				gridPane.add(createCritters, 2, 2);
-				createCritters.setOnAction(new EventHandler<ActionEvent>() {
-				    @Override public void handle(ActionEvent e) {
-				    	int intToSpawn = 0;
-				    	try {
-				    		intToSpawn = Integer.parseInt(amtToSpawn.getText());
-				    		errorMsg.setText("");
-			    		} catch (Exception f){
-			    			if (critterInput2.getValue() == null) 
-			    				errorMsg.setText("Please specify a critter type and a valid number of critters.");
-			    			else if (amtToSpawn.getText().equals(""))
-			    				errorMsg.setText("Please specify a valid number of critters.");
-			    			else
-			    				errorMsg.setText("Number of critters specified is not an integer!");
-			    		}
-				    	try {
-				    		while(intToSpawn > 0) {
-			    				Critter.makeCritter(critterInput2.getValue());
-			    				intToSpawn--;
-			    			}
-				    	} catch (Exception g) {
-				    		errorMsg.setText("Please specify a critter type.");
-				    	}
-				    	Critter.displayWorld(pane);
-				    }
-				});
-				
-				// Button to quit the program
-				Button quit = new Button();
-				quit.setText("End Simulation");
-				gridPane.add(quit, 0, 11);
-				quit.setOnAction(new EventHandler<ActionEvent>() {
-					@Override public void handle(ActionEvent e) {
-						System.exit(0);
+		final ComboBox<String> critterInput2 = new ComboBox<String>();
+		critterInput2.getItems().addAll(classes);
+		critterInput2.setPrefWidth(350);
+		gridPane.add(critterInput2, 0, 2);
+		
+		TextField amtToSpawn = new TextField();
+		amtToSpawn.setPromptText("How many?");
+		amtToSpawn.setPrefWidth(80);
+		gridPane.add(amtToSpawn, 1, 2);
+		
+		Button createCritters = new Button();
+		createCritters.setText("Create Critters");
+		gridPane.add(createCritters, 2, 2);
+		createCritters.setOnAction(new EventHandler<ActionEvent>() {
+			@Override public void handle(ActionEvent e) {
+				int intToSpawn = 0;
+				try {
+					intToSpawn = Integer.parseInt(amtToSpawn.getText());
+					errorMsg.setText("");
+				} catch (Exception f){
+					if (critterInput2.getValue() == null) 
+						errorMsg.setText("Please specify a critter type and a valid number of critters.");
+					else if (amtToSpawn.getText().equals(""))
+						errorMsg.setText("Please specify a valid number of critters.");
+					else
+						errorMsg.setText("Number of critters specified is not an integer!");
+				}
+				try {
+					while(intToSpawn > 0) {
+						Critter.makeCritter(critterInput2.getValue());
+						intToSpawn--;
 					}
-				});
+				} catch (Exception g) {
+					errorMsg.setText("Please specify a critter type.");
+				}
+				Critter.displayWorld(pane);
+			}
+		});
+		
+		// Button to quit the program
+		Button quit = new Button();
+		quit.setText("End Simulation");
+		gridPane.add(quit, 0, 11);
+		quit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override public void handle(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 				
 		// Button and function for the animation
 		AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-            	for(int i = 0; i <= (1000000000-(simSpeed)*10000000); i++) {}
-            	Critter.worldTimeStep();
-            	try {
+			@Override
+			public void handle(long now) {
+				for(int i = 0; i <= (1000000000-(simSpeed)*10000000); i++) {}
+				Critter.worldTimeStep();
+				try {
 					String critter_stats = "";
 					for (String critter_class_name : display_or_not.keySet()) {
 						if (display_or_not.get(critter_class_name) == true) {
@@ -302,60 +302,60 @@ public class Main extends Application{
 						}
 					}
 					stats.setText(critter_stats);
-				 	errorMsg.setText("");
-			    } catch (Exception f){
-			    	//errorMsg.setText("You did not enter a known critter type for stats!");
-			    	stats.setText("");
-			    }
-            	Critter.displayWorld(pane);
-            }
-        };
-        Slider animationSpeed = new Slider();
-        animationSpeed.setMin(0);
-        animationSpeed.setMax(100);
-        animationSpeed.setValue(50);
-        animationSpeed.setShowTickMarks(true);
-        animationSpeed.setBlockIncrement(5);
+					errorMsg.setText("");
+				} catch (Exception f){
+					//errorMsg.setText("You did not enter a known critter type for stats!");
+					stats.setText("");
+				}
+				Critter.displayWorld(pane);
+			}
+		};
+		Slider animationSpeed = new Slider();
+		animationSpeed.setMin(0);
+		animationSpeed.setMax(100);
+		animationSpeed.setValue(50);
+		animationSpeed.setShowTickMarks(true);
+		animationSpeed.setBlockIncrement(5);
 		gridPane.add(animationSpeed, 0, 3);
 		
 		Button animationToggle = new Button();
 		animationToggle.setText("Toggle Animation");
 		gridPane.add(animationToggle, 2, 3);
 		animationToggle.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		    	if(isRunning) {
-		    		isRunning = false;
-		    		animationSpeed.setDisable(false);
-		    		createCritters.setDisable(false);
-		    		amtToSpawn.setDisable(false);
-		    		critterInput2.setDisable(false);
-		    		critterInput.setDisable(false);
-		    		stats.setDisable(false);
-		    		seedSet.setDisable(false);
-		    		seedInput.setDisable(false);
-		    		stepInput.setDisable(false);
-		    		stepButton.setDisable(false);
-		    		quit.setDisable(false);
-		    		timer.stop();
-		    	} else {
-		    		simSpeed = animationSpeed.getValue();
-		    		animationSpeed.setDisable(true);
-		    		createCritters.setDisable(true);
-		    		amtToSpawn.setDisable(true);
-		    		critterInput2.setDisable(true);
-		    		critterInput.setDisable(true);
-		    		stats.setDisable(true);
-		    		seedSet.setDisable(true);
-		    		seedInput.setDisable(true);
-		    		stepInput.setDisable(true);
-		    		stepButton.setDisable(true);
-		    		quit.setDisable(true);
-		    		isRunning = true;
-		    		timer.start();
-		    	}
-		    }
+			@Override public void handle(ActionEvent e) {
+				if(isRunning) {
+					isRunning = false;
+					animationSpeed.setDisable(false);
+					createCritters.setDisable(false);
+					amtToSpawn.setDisable(false);
+					critterInput2.setDisable(false);
+					critterInput.setDisable(false);
+					stats.setDisable(false);
+					seedSet.setDisable(false);
+					seedInput.setDisable(false);
+					stepInput.setDisable(false);
+					stepButton.setDisable(false);
+					quit.setDisable(false);
+					timer.stop();
+				} else {
+					simSpeed = animationSpeed.getValue();
+					animationSpeed.setDisable(true);
+					createCritters.setDisable(true);
+					amtToSpawn.setDisable(true);
+					critterInput2.setDisable(true);
+					critterInput.setDisable(true);
+					stats.setDisable(true);
+					seedSet.setDisable(true);
+					seedInput.setDisable(true);
+					stepInput.setDisable(true);
+					stepButton.setDisable(true);
+					quit.setDisable(true);
+					isRunning = true;
+					timer.start();
+				}
+			}
 		});
-        
+		
 		primaryStage.setScene(new Scene(gridPane, 560, 700));
 		primaryStage.show();
 		Critter.displayWorld(pane);
